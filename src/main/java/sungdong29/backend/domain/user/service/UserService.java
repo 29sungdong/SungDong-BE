@@ -46,4 +46,17 @@ public class UserService {
 
         return UserResponseDTO.from(user);
     }
+
+    public TokenResponseDTO createToken(TokenRequestDTO tokenRequestDTO) {
+        String username = tokenRequestDTO.getUsername();
+        User user = userRepository.findByUsername(username).orElseThrow(()-> UserNotFound.EXCEPTION);
+
+        if (!passwordEncoder.matches(tokenRequestDTO.getPassword(), user.getPassword())) {
+            throw UserNotFound.EXCEPTION;
+        }
+
+        String accessToken = tokenProvider.createAccessToken(user.getId());
+
+        return TokenResponseDTO.of(user.getId(), accessToken);
+    }
 }

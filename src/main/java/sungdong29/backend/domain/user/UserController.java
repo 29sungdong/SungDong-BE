@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import sungdong29.backend.domain.user.dto.request.LoginRequestDTO;
 import sungdong29.backend.domain.user.dto.request.TokenRequestDTO;
 import sungdong29.backend.domain.user.dto.request.UserRequestDTO;
 import sungdong29.backend.domain.user.dto.response.TokenResponseDTO;
@@ -32,4 +31,10 @@ public class UserController {
         return ResponseEntity.ok(userResponseDTO);
     }
 
+    @Operation(summary = "로그인")
+    @PostMapping("login")
+    public ResponseEntity<TokenResponseDTO> loginUser(@RequestBody TokenRequestDTO tokenRequestDTO) {
+        TokenResponseDTO tokenResponseDTO = userService.createToken(tokenRequestDTO);
+        return ResponseEntity.ok(tokenResponseDTO);
+    }
 }
