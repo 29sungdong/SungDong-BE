@@ -56,11 +56,13 @@ public class TokenProvider implements InitializingBean {
         return null;
     }
 
-    public String createAccessToken(Long id, Authentication authentication) {
+    public String createAccessToken(Long id) {
+        /*
         String authorities =
                 authentication.getAuthorities().stream()
                         .map(GrantedAuthority::getAuthority)
                         .collect(Collectors.joining(","));
+         */
 
         Calendar cal = Calendar.getInstance();
         cal.add(Calendar.SECOND, accessExpirationTime); // 만료일 하루
@@ -71,7 +73,7 @@ public class TokenProvider implements InitializingBean {
         return Jwts.builder()
                 .setHeaderParam(Header.TYPE, Header.JWT_TYPE)
                 .setSubject(id.toString())
-                .claim(AUTHORITIES_KEY, authorities)
+                //.claim(AUTHORITIES_KEY, authorities)
                 .claim("type", ACCESS_KEY)
                 .setIssuedAt(issuedAt)
                 .setExpiration(validity)
