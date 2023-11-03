@@ -26,7 +26,7 @@ public class PlaceController {
             @RequestParam String xCoordinate,
             @RequestParam String yCoordinate) {
         log.info("근처 장소 보드 조회");
-        return placeService.getBoardPlaces(xCoordinate, yCoordinate);
+        return placeService.getBoardList(xCoordinate, yCoordinate);
     }
 
     @Operation(summary = "근처 장소 카드리스트 조회")
@@ -35,7 +35,7 @@ public class PlaceController {
             @RequestParam String xCoordinate,
             @RequestParam String yCoordinate) {
         log.info("근처 장소 카드리스트 조회");
-        return placeService.getListPlaces(xCoordinate, yCoordinate);
+        return placeService.getCardList(xCoordinate, yCoordinate);
     }
 
     @Operation(summary = "근처 장소 하나 조회")

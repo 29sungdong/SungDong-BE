@@ -25,13 +25,13 @@ public class PlaceService {
     private final PlaceHelper placeHelper;
 
     @Transactional(readOnly = true)
-    public PlaceBoardListResponseDTO getBoardPlaces(String xCoordinate, String yCoordinate) {
+    public PlaceBoardListResponseDTO getBoardList(String xCoordinate, String yCoordinate) {
         List<Place> places = placeRepository.findAllByDistanceAsc(xCoordinate, yCoordinate);
         return placeMapper.toBoardListDTO(places);
     }
 
     @Transactional(readOnly = true)
-    public PlaceCardListResponseDTO getListPlaces(String xCoordinate, String yCoordinate) {
+    public PlaceCardListResponseDTO getCardList(String xCoordinate, String yCoordinate) {
         List<Place> places = placeRepository.findAllByDistanceAsc(xCoordinate, yCoordinate);
         return placeMapper.toCardListDTO(places);
     }
