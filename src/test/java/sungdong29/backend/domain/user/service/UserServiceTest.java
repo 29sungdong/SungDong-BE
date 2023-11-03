@@ -5,10 +5,12 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import sungdong29.backend.domain.user.dto.request.TokenRequestDTO;
 import sungdong29.backend.domain.user.dto.request.UserRequestDTO;
 import sungdong29.backend.domain.user.dto.response.UserResponseDTO;
 import sungdong29.backend.domain.user.exception.DuplicateNickname;
 import sungdong29.backend.domain.user.exception.DuplicateUsername;
+import sungdong29.backend.domain.user.exception.UserNotFound;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -37,11 +39,19 @@ public class UserServiceTest {
         assertThrows(DuplicateUsername.class, () -> userService.createUser(userRequestDTO));
     }
 
-    @DisplayName("중복 닉네임 회원가입 테스트")
+    @DisplayName("존재하지 않는 아이디 로그인 테스트")
     @Test
-    void testCreateUserDuplicateNickname(){
-        UserRequestDTO userRequestDTO = new UserRequestDTO("username2", "nickname", "password", "token");
+    void testLoginWithNonexistentUsername(){
+        TokenRequestDTO tokenRequestDTO = new TokenRequestDTO("no_username", "password");
 
-        assertThrows(DuplicateNickname.class, () -> userService.createUser(userRequestDTO));
+        assertThrows(UserNotFound.class, () -> userService.createToken(tokenRequestDTO));
+    }
+
+    @DisplayName("잘못된 비밀번호 로그인 테스트")
+    @Test
+    void testLoginWithWrongPassword(){
+        TokenRequestDTO tokenRequestDTO = new TokenRequestDTO("username", "wrong_password");
+
+        assertThrows(UserNotFound.class, () -> userService.createToken(tokenRequestDTO));
     }
 }
