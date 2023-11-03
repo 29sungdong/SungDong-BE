@@ -2,7 +2,7 @@ version: "3"
 
 services:
   backend-dev:
-    image: sungdong29/sungdong29-backend-dev
+    image: 29sungdong/sungdong29-backend-dev
     container_name: backend-dev
     hostname: backend-dev
     expose:
