@@ -49,6 +49,9 @@ public class Place {
     @Size(max = 10)
     private String closingTime;
 
+    @NotNull
+    private String image;
+
     @Builder
     private Place(
             String name,
@@ -71,4 +74,5 @@ public class Place {
     }
 
     // 정적팩토리메서드
+
 }
