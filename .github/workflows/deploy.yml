@@ -43,13 +43,12 @@ jobs:
 
       # Gradle build
       - name: Build with Gradle
-        run: ./gradlew build -x test :spotlessApply
 
       - name: Docker meta
         id: docker_meta
         uses: crazy-max/ghaction-docker-meta@v1
         with:
-          images: ceos/ceos-server-dev
+          images: sungdong29/sungdong29-backend-dev
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
