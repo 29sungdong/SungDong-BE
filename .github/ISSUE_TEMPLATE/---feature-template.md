@@ -1,7 +1,7 @@
 ---
-name: "\🫧 Feature Template"
+name: "🫧 Feature Template"
 about: 기능 추가에 대한 작업 사항을 적습니다
-title: "\🫧[Feature] - "
+title: "🫧[Feature] - "
 labels: ''
 assignees: ''
 
