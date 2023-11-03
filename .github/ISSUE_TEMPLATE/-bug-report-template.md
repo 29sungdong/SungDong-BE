@@ -1,7 +1,7 @@
 ---
-name: "❌Bug Report Template"
+name: "👿Bug Report Template"
 about: 버그가 발생한 상황과 수정 내역을 적습니다
-title: "\U0001F41E[Bug] - "
+title: "👿[Bug] - "
 labels: '👿 BugFix'
 assignees: ''
 
