@@ -43,6 +43,7 @@ jobs:
 
       # Gradle build
       - name: Build with Gradle
+        run: ./gradlew build
 
       - name: Docker meta
         id: docker_meta
