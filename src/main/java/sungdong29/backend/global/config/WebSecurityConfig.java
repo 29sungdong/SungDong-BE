@@ -69,7 +69,7 @@ public class WebSecurityConfig {
                         .permitAll()
                         .requestMatchers(SwaggerPatterns)
                         .permitAll()
-                        .requestMatchers("/user/signup", "/user/login", "/place/**")
+                        .requestMatchers("/user/signup", "/user/login", "/places/**", "/events/**")
                         .permitAll()
                 )
                 .headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable));
