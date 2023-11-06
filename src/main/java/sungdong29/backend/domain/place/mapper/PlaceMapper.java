@@ -1,4 +1,4 @@
-package sungdong29.backend.domain.place.repository;
+package sungdong29.backend.domain.place.mapper;
 
 import org.springframework.stereotype.Component;
 import sungdong29.backend.domain.place.domain.Place;

@@ -8,7 +8,7 @@ import sungdong29.backend.BackendApplication;
 import sungdong29.backend.domain.place.dto.response.PlaceBoardListResponseDTO;
 import sungdong29.backend.domain.place.dto.response.PlaceResponseDTO;
 import sungdong29.backend.domain.place.dto.response.PlaceCardListResponseDTO;
-import sungdong29.backend.domain.place.repository.PlaceMapper;
+import sungdong29.backend.domain.place.mapper.PlaceMapper;
 import sungdong29.backend.domain.place.repository.PlaceRepository;
 
 import static org.assertj.core.api.Assertions.assertThat;

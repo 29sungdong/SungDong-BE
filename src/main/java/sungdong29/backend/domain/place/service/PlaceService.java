@@ -8,7 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import sungdong29.backend.domain.place.domain.Place;
 import sungdong29.backend.domain.place.dto.response.PlaceResponseDTO;
 import sungdong29.backend.domain.place.dto.response.PlaceCardListResponseDTO;
-import sungdong29.backend.domain.place.repository.PlaceMapper;
+import sungdong29.backend.domain.place.mapper.PlaceMapper;
 import sungdong29.backend.domain.place.dto.response.PlaceBoardListResponseDTO;
 import sungdong29.backend.domain.place.helper.PlaceHelper;
 import sungdong29.backend.domain.place.repository.PlaceRepository;
