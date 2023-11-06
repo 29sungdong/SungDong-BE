@@ -8,6 +8,7 @@ import sungdong29.backend.domain.event.domain.Category;
 import sungdong29.backend.domain.event.domain.Event;
 import sungdong29.backend.domain.event.domain.QEvent;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Repository
@@ -20,9 +21,12 @@ public class EventCustomRepositoryImpl implements EventCustomRepository {
 
     @Override
     public List<Event> findByFilter(List<Category> categoryList, Long placeId) {
+        LocalDateTime now = LocalDateTime.now();
+
         return queryFactory.selectFrom(qEvent)
                 .where(eqCategory(categoryList))
                 .where(eqPlaceId(placeId))
+                .where(qEvent.endDate.after(now))
                 .fetch();
     }
 
