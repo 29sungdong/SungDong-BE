@@ -30,4 +30,13 @@ public class SubPlaceControllerTest {
                 .andExpect(status().isOk())
                 .andDo(print());
     }
+
+    @DisplayName("미션 조회 컨트롤러 테스트")
+    @Test
+    @Transactional
+    public void testFindMissions() throws Exception {
+        mockMvc.perform(get("/sub-places/1/missions"))
+                .andExpect(status().isOk())
+                .andDo(print());
+    }
 }

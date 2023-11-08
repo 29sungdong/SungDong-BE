@@ -1,13 +1,12 @@
 package sungdong29.backend.domain.subPlace.service;
 
+import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import sungdong29.backend.domain.subPlace.dto.response.MissionsResponseDTO;
 import sungdong29.backend.domain.subPlace.dto.response.SubPlacesResponseDTO;
-import sungdong29.backend.domain.subPlace.repository.SubPlaceRepository;
-import sungdong29.backend.domain.user.dto.request.UserRequestDTO;
-import sungdong29.backend.domain.user.dto.response.UserResponseDTO;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -22,5 +21,14 @@ public class SubPlaceServiceTest {
         SubPlacesResponseDTO subPlacesResponseDTO = subPlaceService.findSubPlaces(1L);
 
         assertThat(subPlacesResponseDTO.getSubPlaces()).isNotNull();
+    }
+
+    @DisplayName("특정 시설 미션 조회 테스트")
+    @Test
+    @Transactional
+    void testFindMissionsSuccess(){
+        MissionsResponseDTO missionsResponseDTO = subPlaceService.findMissionsBySubPlaceId(1L);
+
+        assertThat(missionsResponseDTO.getMissions()).isNotNull();
     }
 }
