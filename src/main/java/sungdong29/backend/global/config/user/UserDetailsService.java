@@ -6,19 +6,17 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+import sungdong29.backend.domain.user.repository.UserRepository;
 
 @Component("userDetailsService")
 @RequiredArgsConstructor
 public class UserDetailsService {
-
+    private final UserRepository userRepository;
 
     @Transactional
     public UserDetails loadUserByUsername(Long id) throws UsernameNotFoundException {
-//        return userRepository
-//                .findById(id)
-//                .map(user -> createUser(id, user))
-//                .orElseThrow(() -> new UsernameNotFoundException(id + " -> DB에서 찾을 수 없음"));
-        return null;
+        User user = userRepository.findById(id).orElseThrow(() -> new UsernameNotFoundException(id + " -> 존재하지 않는 사용자"));
+        return createUser(id, user);
     }
 
     private UserDetails createUser(Long id, User user) {
