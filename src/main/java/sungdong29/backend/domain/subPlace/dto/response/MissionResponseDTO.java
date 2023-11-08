@@ -5,9 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class SubPlaceResponseDTO {
+public class MissionResponseDTO {
     private Long id;
-    private String name;
-    private String xCoordinate;
-    private String yCoordinate;
+    private String content;
 }

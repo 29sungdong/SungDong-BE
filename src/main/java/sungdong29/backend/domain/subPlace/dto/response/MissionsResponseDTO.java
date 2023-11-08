@@ -9,6 +9,6 @@ import java.util.List;
 @Getter
 @Setter
 @AllArgsConstructor
-public class SubPlacesResponseDTO {
-    List<SubPlaceResponseDTO> subPlaces;
+public class MissionsResponseDTO {
+    List<MissionResponseDTO> missions;
 }

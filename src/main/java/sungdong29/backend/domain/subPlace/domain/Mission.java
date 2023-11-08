@@ -9,31 +9,20 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import sungdong29.backend.domain.place.domain.Place;
 
-import java.util.List;
-
 @Getter
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
-public class SubPlace {
+public class Mission {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotNull
     @Column
-    @Size(max = 100)
-    private String name;
-
-    @NotNull
-    @Column
-    private String xCoordinate;
-    private String yCoordinate;
+    private String content;
 
     @ManyToOne
-    @JoinColumn(name = "place_id")
-    private Place place;
-
-    @OneToMany(mappedBy = "subPlace", cascade = CascadeType.ALL)
-    private List<Mission> missions;
+    @JoinColumn(name = "sub_place_id")
+    private SubPlace subPlace;
 }
