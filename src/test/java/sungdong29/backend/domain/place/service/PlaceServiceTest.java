@@ -24,7 +24,7 @@ public class PlaceServiceTest {
     @Autowired
     PlaceService placeService;
 
-    @DisplayName("근처 장소 리스트 조회")
+    @DisplayName("근처 장소 조회")
     @Test
     void getListPlaces() {
         // given
