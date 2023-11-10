@@ -26,7 +26,7 @@ public class SubPlaceControllerTest {
     @Transactional
     public void testFindSubPlace() throws Exception {
         mockMvc.perform(get("/sub-places")
-                .param("place_id", "1"))
+                .param("placeId", "1"))
                 .andExpect(status().isOk())
                 .andDo(print());
     }
