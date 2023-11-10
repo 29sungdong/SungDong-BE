@@ -34,7 +34,7 @@ public class PlaceControllerTest {
                 .build();
     }
 
-    @DisplayName("근처 장소 보드 조회")
+    @DisplayName("근처 장소 조회")
     @Test
     void getBoardPlaces() throws Exception {
         // given
@@ -42,20 +42,7 @@ public class PlaceControllerTest {
         String yCoordinate = "37";
 
         // when, then
-        mockMvc.perform(MockMvcRequestBuilders.get("/places/board?xCoordinate={xCoordinate}&yCoordinate={yCoordinate}", xCoordinate, yCoordinate)
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk());
-    }
-
-    @DisplayName("근처 장소 카드리스트 조회")
-    @Test
-    void getListPlaces() throws Exception {
-        // given
-        String xCoordinate = "127";
-        String yCoordinate = "37";
-
-        // when, then
-        mockMvc.perform(MockMvcRequestBuilders.get("/places/card?xCoordinate={xCoordinate}&yCoordinate={yCoordinate}", xCoordinate, yCoordinate)
+        mockMvc.perform(MockMvcRequestBuilders.get("/places?xCoordinate={xCoordinate}&yCoordinate={yCoordinate}", xCoordinate, yCoordinate)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
     }
