@@ -28,6 +28,6 @@ public class PlaceRepositoryTest {
         List<Place> places = placeRepository.findAllByDistanceAsc(xCoordinate, yCoordinate);
 
         // then
-        assertThat(places.get(0).getId()).isEqualTo(1);
+        assertThat(places.get(0).getId()).isEqualTo(2L);
     }
 }

@@ -5,9 +5,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import sungdong29.backend.BackendApplication;
-import sungdong29.backend.domain.place.dto.response.PlaceBoardListResponseDTO;
+import sungdong29.backend.domain.place.dto.response.PlaceListResponseDTO;
 import sungdong29.backend.domain.place.dto.response.PlaceResponseDTO;
-import sungdong29.backend.domain.place.dto.response.PlaceCardListResponseDTO;
 import sungdong29.backend.domain.place.repository.PlaceMapper;
 import sungdong29.backend.domain.place.repository.PlaceRepository;
 
@@ -25,21 +24,7 @@ public class PlaceServiceTest {
     @Autowired
     PlaceService placeService;
 
-    @DisplayName("근처 장소 보드 조회")
-    @Test
-    void getBoardPlaces() {
-        // given
-        String xCoordinate = "127";
-        String yCoordinate = "37";
-
-        // when
-        PlaceBoardListResponseDTO boardListDTO = placeService.getBoardList(xCoordinate, yCoordinate);
-
-        // then
-        assertThat(boardListDTO.getPlaces()).isNotNull();
-    }
-
-    @DisplayName("근처 장소 카드리스트 조회")
+    @DisplayName("근처 장소 조회")
     @Test
     void getListPlaces() {
         // given
@@ -47,10 +32,10 @@ public class PlaceServiceTest {
         String yCoordinate = "37";
 
         // when
-        PlaceCardListResponseDTO cardListDTO = placeService.getCardList(xCoordinate, yCoordinate);
+        PlaceListResponseDTO placeListDTO = placeService.getPlaceList(xCoordinate, yCoordinate);
 
         // then
-        assertThat(cardListDTO.getPlaces()).isNotNull();
+        assertThat(placeListDTO.getPlaces()).isNotNull();
     }
 
     @DisplayName("근처 장소 하나 조회")
