@@ -69,4 +69,14 @@ public class UserService {
 
         return TokenResponseDTO.of(user.getId(), accessToken);
     }
+
+    public UserResponseDTO updateUserNickname(Long userId, NicknameUpdateRequestDTO nicknameUpdateRequestDTO) {
+        String nickname = nicknameUpdateRequestDTO.getNickname();
+        User user = userRepository.findById(userId).orElseThrow(()-> UserNotFound.EXCEPTION);
+
+        validateDuplicateNickname(nickname);
+        user.updateNickname(nickname);
+
+        return UserResponseDTO.from(user);
+    }
 }
