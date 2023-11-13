@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import sungdong29.backend.domain.badge.dto.response.BadgesResponseDTO;
 import sungdong29.backend.domain.badge.service.BadgeService;
+import sungdong29.backend.global.config.LoginUser;
 
 @RestController
 @RequiredArgsConstructor
@@ -17,8 +18,8 @@ public class BadgeController {
     private final BadgeService badgeService;
 
     @GetMapping("/user/badges")
-    public ResponseEntity<BadgesResponseDTO> findUserBadges() {
-        BadgesResponseDTO badgesResponseDTO = badgeService.findUserBadges(4L);
+    public ResponseEntity<BadgesResponseDTO> findUserBadges(@LoginUser Long userId) {
+        BadgesResponseDTO badgesResponseDTO = badgeService.findUserBadges(userId);
         return ResponseEntity.ok(badgesResponseDTO);
     }
 }
