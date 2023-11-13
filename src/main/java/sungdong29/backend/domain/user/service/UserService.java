@@ -1,10 +1,12 @@
 package sungdong29.backend.domain.user.service;
 
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import sungdong29.backend.domain.user.domain.User;
+import sungdong29.backend.domain.user.dto.request.NicknameUpdateRequestDTO;
 import sungdong29.backend.domain.user.dto.request.TokenRequestDTO;
 import sungdong29.backend.domain.user.dto.request.UserRequestDTO;
 import sungdong29.backend.domain.user.dto.response.TokenResponseDTO;
@@ -58,5 +60,11 @@ public class UserService {
         String accessToken = tokenProvider.createAccessToken(user.getId());
 
         return TokenResponseDTO.of(user.getId(), accessToken);
+    }
+
+    private void validateDuplicateNickname(String nickname) {
+        if(userRepository.existsByNickname(nickname)) {
+            throw DuplicateNickname.EXCEPTION;
+        }
     }
 }
