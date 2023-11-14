@@ -10,7 +10,7 @@ import sungdong29.backend.domain.place.dto.response.MarkerListResponseDTO;
 import sungdong29.backend.domain.place.dto.response.PlaceListResponseDTO;
 import sungdong29.backend.domain.place.dto.response.PlaceResponseDTO;
 import sungdong29.backend.domain.place.helper.PlaceHelper;
-import sungdong29.backend.domain.place.repository.PlaceMapper;
+import sungdong29.backend.domain.place.mapper.PlaceMapper;
 import sungdong29.backend.domain.place.repository.PlaceRepository;
 
 import java.util.List;
