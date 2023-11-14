@@ -2,10 +2,10 @@ package sungdong29.backend.domain.place.mapper;
 
 import org.springframework.stereotype.Component;
 import sungdong29.backend.domain.place.domain.Place;
-import sungdong29.backend.domain.place.dto.response.PlaceBoardListResponseDTO;
-import sungdong29.backend.domain.place.dto.response.PlaceCardListResponseDTO;
+import sungdong29.backend.domain.place.dto.response.MarkerListResponseDTO;
+import sungdong29.backend.domain.place.dto.response.PlaceListResponseDTO;
 import sungdong29.backend.domain.place.dto.response.PlaceResponseDTO;
-import sungdong29.backend.domain.place.vo.PlaceCardVo;
+import sungdong29.backend.domain.place.vo.MarkerVo;
 import sungdong29.backend.domain.place.vo.SimplePlaceVo;
 
 import java.util.List;
@@ -13,24 +13,24 @@ import java.util.List;
 @Component
 public class PlaceMapper {
 
-    public PlaceBoardListResponseDTO toBoardListDTO(List<Place> places) {
+    public PlaceListResponseDTO toCardListDTO(List<Place> places) {
         List<SimplePlaceVo> mapPlaces =
                 places.stream()
-                        .map(SimplePlaceVo::of)
+                        .map(SimplePlaceVo::from)
                         .toList();
-        return PlaceBoardListResponseDTO.from(mapPlaces);
-    }
-
-    public PlaceCardListResponseDTO toCardListDTO(List<Place> places) {
-        List<PlaceCardVo> mapPlaces =
-                places.stream()
-                        .map(PlaceCardVo::of)
-                        .toList();
-        return PlaceCardListResponseDTO.from(mapPlaces);
+        return PlaceListResponseDTO.from(mapPlaces);
     }
 
     public PlaceResponseDTO toPlaceDTO(Place place) {
-        PlaceCardVo placeCardVo = PlaceCardVo.of(place);
-        return PlaceResponseDTO.from(placeCardVo);
+        SimplePlaceVo simplePlaceVo = SimplePlaceVo.from(place);
+        return PlaceResponseDTO.from(simplePlaceVo);
+    }
+
+    public MarkerListResponseDTO toMarkerListDTO(List<Place> places) {
+        List<MarkerVo> mapMarkers =
+                places.stream()
+                        .map(MarkerVo::from)
+                        .toList();
+        return MarkerListResponseDTO.from(mapMarkers);
     }
 }

@@ -73,4 +73,19 @@ public class PlaceControllerTest {
                 .andExpect(jsonPath("$.place.name").value(name))
                 .andExpect(status().isOk());
     }
+
+    @DisplayName("키워드로 장소 조회")
+    @Test
+    void testGetPlaceById() throws Exception {
+        // given
+        String keyword = "공원";
+        String name = "응봉공원 테니스장";
+
+        // when, then
+        mockMvc.perform(MockMvcRequestBuilders.get("/places/search?keyword={keyword}", keyword)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.markers[0].name").value(name))
+                .andExpect(status().isOk());
+    }
+
 }

@@ -17,7 +17,7 @@ public class PlaceRepositoryTest {
     @Autowired
     private PlaceRepository placeRepository;
 
-    @DisplayName("진단 결과 조회")
+    @DisplayName("거리 순 장소 조회")
     @Test
     void findAllByDistanceAsc() {
         // given
@@ -28,6 +28,19 @@ public class PlaceRepositoryTest {
         List<Place> places = placeRepository.findAllByDistanceAsc(xCoordinate, yCoordinate);
 
         // then
-        assertThat(places.get(0).getId()).isEqualTo(1);
+        assertThat(places.get(0).getId()).isEqualTo(2L);
+    }
+
+    @DisplayName("키워드로 장소 조회")
+    @Test
+    void findByNameContaining() {
+        // given
+        String keyword = "공원";
+
+        // when
+        List<Place> places = placeRepository.findByNameContaining(keyword);
+
+        // then
+        assertThat(places.get(0).getName()).contains(keyword);
     }
 }

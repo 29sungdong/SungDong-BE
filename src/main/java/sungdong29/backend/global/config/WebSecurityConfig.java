@@ -2,6 +2,8 @@ package sungdong29.backend.global.config;
 
 
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
+import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
 import org.springframework.boot.autoconfigure.security.ConditionalOnDefaultWebSecurity;
@@ -27,7 +29,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @EnableWebSecurity
-@Configuration()
+@Configuration
 @ConditionalOnDefaultWebSecurity
 @ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.SERVLET)
 @RequiredArgsConstructor
@@ -64,6 +66,7 @@ public class WebSecurityConfig {
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 );
 
+        //일반 유저
         http.authorizeHttpRequests(request -> request
                         .requestMatchers(CorsUtils::isPreFlightRequest)
                         .permitAll()
@@ -71,6 +74,7 @@ public class WebSecurityConfig {
                         .permitAll()
                         .requestMatchers("/user/signup", "/user/login", "/places/**", "/events/**")
                         .permitAll()
+                        .anyRequest().authenticated()
                 )
                 .headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable));
 
