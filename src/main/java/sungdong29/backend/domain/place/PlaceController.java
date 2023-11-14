@@ -39,7 +39,7 @@ public class PlaceController {
 
     @Operation(summary = "키워드로 장소 조회")
     @GetMapping("/search")
-    public MarkerListResponseDTO getPlaceById(
+    public MarkerListResponseDTO getPlaceByKeyword(
             @RequestParam String keyword) {
         log.info("키워드로 장소 조회");
         return placeService.getPlaceByKeyword(keyword);

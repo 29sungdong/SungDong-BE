@@ -70,7 +70,7 @@ public class PlaceControllerTest {
 
     @DisplayName("키워드로 장소 조회")
     @Test
-    void testGetPlaceById() throws Exception {
+    void getPlaceByKeyword() throws Exception {
         // given
         String keyword = "공원";
         String name = "응봉공원 테니스장";
