@@ -27,7 +27,7 @@ public class UserService {
     private final TokenProvider tokenProvider;
 
     private void validateDuplicateUsername(String username) {
-        if(userRepository.existsByNickname(username)) {
+        if(userRepository.existsByUsername(username)) {
             throw DuplicateUsername.EXCEPTION;
         }
     }
