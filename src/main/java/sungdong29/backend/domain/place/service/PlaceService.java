@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import sungdong29.backend.domain.place.domain.Place;
+import sungdong29.backend.domain.place.dto.response.MarkerListResponseDTO;
 import sungdong29.backend.domain.place.dto.response.PlaceListResponseDTO;
 import sungdong29.backend.domain.place.dto.response.PlaceResponseDTO;
 import sungdong29.backend.domain.place.helper.PlaceHelper;
@@ -33,5 +34,11 @@ public class PlaceService {
     public PlaceResponseDTO getPlaceById(Long id) {
         Place place = placeHelper.getPlaceById(id);
         return placeMapper.toPlaceDTO(place);
+    }
+
+    @Transactional(readOnly = true)
+    public MarkerListResponseDTO getPlaceByKeyword(String keyword) {
+        List<Place> places = placeRepository.findByNameContaining(keyword);
+        return placeMapper.toMarkerListDTO(places);
     }
 }

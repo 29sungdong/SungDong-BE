@@ -28,7 +28,7 @@ public class SimplePlaceVo {
         this.closingTime = closingTime;
     }
 
-    public static SimplePlaceVo of(Place place) {
+    public static SimplePlaceVo from(Place place) {
         return SimplePlaceVo.builder()
                 .id(place.getId())
                 .name(place.getName())

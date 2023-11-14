@@ -11,4 +11,6 @@ public interface PlaceRepository extends JpaRepository<Place, Long> {
 
     @Query("SELECT p FROM Place p ORDER BY ST_DISTANCE(POINT(p.xCoordinate, p.yCoordinate), POINT(:x, :y)) ASC")
     List<Place> findAllByDistanceAsc(@Param("x") String x, @Param("y") String y);
+
+    List<Place> findByNameContaining(String keyword);
 }
