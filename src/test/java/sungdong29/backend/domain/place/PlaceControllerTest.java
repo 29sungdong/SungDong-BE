@@ -13,7 +13,10 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.filter.CharacterEncodingFilter;
 import sungdong29.backend.BackendApplication;
+import sungdong29.backend.domain.place.dto.response.PlaceListResponseDTO;
+import sungdong29.backend.domain.place.service.PlaceService;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -22,6 +25,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class PlaceControllerTest {
 
     private MockMvc mockMvc;
+
+    @Autowired
+    PlaceService placeService;
 
     @Autowired
     ObjectMapper objectMapper;
@@ -34,30 +40,18 @@ public class PlaceControllerTest {
                 .build();
     }
 
-    @DisplayName("근처 장소 보드 조회")
+    @DisplayName("근처 장소 조회")
     @Test
-    void getBoardPlaces() throws Exception {
+    void getListPlaces() {
         // given
         String xCoordinate = "127";
         String yCoordinate = "37";
 
-        // when, then
-        mockMvc.perform(MockMvcRequestBuilders.get("/places/board?xCoordinate={xCoordinate}&yCoordinate={yCoordinate}", xCoordinate, yCoordinate)
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk());
-    }
+        // when
+        PlaceListResponseDTO placeListDTO = placeService.getPlaceList(xCoordinate, yCoordinate);
 
-    @DisplayName("근처 장소 카드리스트 조회")
-    @Test
-    void getListPlaces() throws Exception {
-        // given
-        String xCoordinate = "127";
-        String yCoordinate = "37";
-
-        // when, then
-        mockMvc.perform(MockMvcRequestBuilders.get("/places/card?xCoordinate={xCoordinate}&yCoordinate={yCoordinate}", xCoordinate, yCoordinate)
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk());
+        // then
+        assertThat(placeListDTO.getPlaces()).isNotNull();
     }
 
     @DisplayName("근처 장소 하나 조회")
