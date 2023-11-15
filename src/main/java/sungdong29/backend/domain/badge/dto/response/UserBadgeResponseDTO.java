@@ -9,7 +9,9 @@ import java.util.List;
 @Getter
 @Setter
 @AllArgsConstructor
-public class GroupedBadgeDTO {
+public class UserBadgeResponseDTO {
+    private Long id;
     private String category;
+    private String imageUrl;
     private List<BadgeResponseDTO> badges;
 }
