@@ -43,11 +43,11 @@ public class Event extends BaseEntity {
     private String url;
 
     @NotNull
-    private LocalDateTime startDate;
+    private LocalDateTime startDateTime;
 
     @NotNull
     @Size(max = 10)
-    private LocalDateTime endDate;
+    private LocalDateTime endDateTime;
 
     @Builder
     private Event(
@@ -56,16 +56,16 @@ public class Event extends BaseEntity {
             Category category,
             Integer price,
             String url,
-            LocalDateTime startDate,
-            LocalDateTime endDate
+            LocalDateTime startDateTime,
+            LocalDateTime endDateTime
     ) {
         this.place = place;
         this.name = name;
         this.category = category;
         this.price = price;
         this.url = url;
-        this.startDate = startDate;
-        this.endDate = endDate;
+        this.startDateTime = startDateTime;
+        this.endDateTime = endDateTime;
     }
 
     // 정적팩토리메서드
