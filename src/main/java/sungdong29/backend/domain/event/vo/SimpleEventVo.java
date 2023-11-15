@@ -28,7 +28,7 @@ public class SimpleEventVo {
         return SimpleEventVo.builder()
                 .placeId(event.getPlace().getId())
                 .name(event.getName())
-                .endDate(event.getEndDate())
+                .endDate(event.getEndDateTime())
                 .url(event.getUrl())
                 .build();
     }

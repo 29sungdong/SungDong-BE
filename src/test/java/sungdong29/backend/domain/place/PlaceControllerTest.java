@@ -13,10 +13,8 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.filter.CharacterEncodingFilter;
 import sungdong29.backend.BackendApplication;
-import sungdong29.backend.domain.place.dto.response.PlaceListResponseDTO;
 import sungdong29.backend.domain.place.service.PlaceService;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -42,16 +40,16 @@ public class PlaceControllerTest {
 
     @DisplayName("근처 장소 조회")
     @Test
-    void getListPlaces() {
+    void getListPlaces() throws Exception {
         // given
         String xCoordinate = "127";
         String yCoordinate = "37";
 
-        // when
-        PlaceListResponseDTO placeListDTO = placeService.getPlaceList(xCoordinate, yCoordinate);
-
-        // then
-        assertThat(placeListDTO.getPlaces()).isNotNull();
+        // when, then
+        mockMvc.perform(MockMvcRequestBuilders.get("/places?xCoordinate={xCoordinate}&yCoordinate={yCoordinate}", xCoordinate, yCoordinate)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.places").exists())
+                .andExpect(status().isOk());
     }
 
     @DisplayName("근처 장소 하나 조회")
@@ -70,7 +68,7 @@ public class PlaceControllerTest {
 
     @DisplayName("키워드로 장소 조회")
     @Test
-    void testGetPlaceById() throws Exception {
+    void getPlaceByKeyword() throws Exception {
         // given
         String keyword = "공원";
         String name = "응봉공원 테니스장";
@@ -82,4 +80,18 @@ public class PlaceControllerTest {
                 .andExpect(status().isOk());
     }
 
+    @DisplayName("근처 마커 리스트 조회")
+    @Test
+    void getMarkerList() throws Exception {
+        // given
+        String xCoordinate = "127";
+        String yCoordinate = "37";
+        int limit = 4;
+
+        // when, then
+        mockMvc.perform(MockMvcRequestBuilders.get("/places/marker?xCoordinate={xCoordinate}&yCoordinate={yCoordinate}&limit={limit}", xCoordinate, yCoordinate, limit)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.markers").exists())
+                .andExpect(status().isOk());
+    }
 }
