@@ -24,6 +24,5 @@ public class Badge {
 
     @NotNull
     @Column
-    @Size(max = 100)
-    private String name;
+    private String imageUrl;
 }

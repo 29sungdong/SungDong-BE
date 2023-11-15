@@ -1,10 +1,7 @@
 package sungdong29.backend.domain.badge.domain;
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import sungdong29.backend.domain.user.domain.User;
 
 @Entity
@@ -24,6 +21,20 @@ public class UserBadge {
     @JoinColumn(name="badge_id")
     private Badge badge;
 
-    private boolean isAchieved;
-    private Integer progress;
+    private String name;
+
+    @Builder
+    private UserBadge(User user, Badge badge, String name) {
+        this.user=user;
+        this.badge=badge;
+        this.name=name;
+    }
+
+    public static UserBadge of(User user, Badge badge, String name) {
+        return UserBadge.builder()
+                .user(user)
+                .badge(badge)
+                .name(name)
+                .build();
+    }
 }
