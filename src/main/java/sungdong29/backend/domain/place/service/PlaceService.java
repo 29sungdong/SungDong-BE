@@ -41,4 +41,10 @@ public class PlaceService {
         List<Place> places = placeRepository.findByNameContaining(keyword);
         return placeMapper.toMarkerListDTO(places);
     }
+
+    @Transactional(readOnly = true)
+    public MarkerListResponseDTO getMarkerList(String xCoordinate, String yCoordinate, int limit) {
+        List<Place> places = placeRepository.findAllByDistanceAscWithLimit(xCoordinate, yCoordinate, limit);
+        return placeMapper.toMarkerListDTO(places);
+    }
 }

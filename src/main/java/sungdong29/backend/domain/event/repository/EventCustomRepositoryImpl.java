@@ -26,7 +26,7 @@ public class EventCustomRepositoryImpl implements EventCustomRepository {
         return queryFactory.selectFrom(qEvent)
                 .where(eqCategory(categoryList))
                 .where(eqPlaceId(placeId))
-                .where(qEvent.endDate.after(now))
+                .where(qEvent.endDateTime.after(now))
                 .fetch();
     }
 

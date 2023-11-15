@@ -43,4 +43,19 @@ public class PlaceRepositoryTest {
         // then
         assertThat(places.get(0).getName()).contains(keyword);
     }
+
+    @DisplayName("근처 마커 리스트 조회")
+    @Test
+    void findAllByDistanceAscWithLimit() {
+        // given
+        String xCoordinate = "127";
+        String yCoordinate = "37";
+        int limit = 5;
+
+        // when
+        List<Place> places = placeRepository.findAllByDistanceAscWithLimit(xCoordinate, yCoordinate, limit);
+
+        // then
+        assertThat(places.size()).isEqualTo(5);
+    }
 }

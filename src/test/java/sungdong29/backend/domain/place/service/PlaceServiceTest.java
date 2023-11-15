@@ -67,4 +67,19 @@ public class PlaceServiceTest {
         assertThat(markers1.getMarkers().size()).isEqualTo(0);
         assertThat(markers2.getMarkers().get(0).getName()).contains(keyword2);
     }
+
+    @DisplayName("근처 마커 리스트 조회")
+    @Test
+    void getMarkerList() {
+        // given
+        String xCoordinate = "127";
+        String yCoordinate = "37";
+        int limit = 5;
+
+        // when
+        MarkerListResponseDTO markerListDTO = placeService.getMarkerList(xCoordinate, yCoordinate, limit);
+
+        // then
+        assertThat(markerListDTO.getMarkers().size()).isEqualTo(5);
+    }
 }
