@@ -44,4 +44,14 @@ public class PlaceController {
         log.info("키워드로 장소 조회");
         return placeService.getPlaceByKeyword(keyword);
     }
+
+    @Operation(summary = "근처 마커 리스트 조회")
+    @GetMapping("/marker")
+    public MarkerListResponseDTO getMarkerList(
+            @RequestParam String xCoordinate,
+            @RequestParam String yCoordinate,
+            @RequestParam int limit) {
+        log.info("근처 마커 리스트 조회");
+        return placeService.getMarkerList(xCoordinate, yCoordinate, limit);
+    }
 }
