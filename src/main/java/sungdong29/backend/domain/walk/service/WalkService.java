@@ -28,6 +28,15 @@ public class WalkService {
     private final BadgeRepository badgeRepository;
     private final UserBadgeRepository userBadgeRepository;
 
+    public UserBadge createPlaceBadge(Place place, User user) {
+        Badge badge = badgeRepository.findByCategory(place.getCategory().getCategory()).orElseThrow(()-> BadgeNotFound.EXCEPTION);
+
+        UserBadge userBadge = UserBadge.of(user, badge, place.getName());
+        userBadgeRepository.save(userBadge);
+
+        return userBadge;
+    }
+
     @Transactional
     public WalkBadgeResponseDTO createWalkRecord(Long userId, Long placeId, WalkRecordRequestDTO walkRecordRequestDTO) {
         User user = userRepository.findById(userId).orElseThrow();
