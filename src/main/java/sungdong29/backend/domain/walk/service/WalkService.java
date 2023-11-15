@@ -28,11 +28,11 @@ public class WalkService {
     private final BadgeRepository badgeRepository;
     private final UserBadgeRepository userBadgeRepository;
 
-    public UserBadge createPlaceBadge(Place place, User user) {
+    public UserBadge findOrCreatePlaceBadge(Place place, User user) {
         Badge badge = badgeRepository.findByCategory(place.getCategory().getCategory()).orElseThrow(()-> BadgeNotFound.EXCEPTION);
 
-        UserBadge userBadge = UserBadge.of(user, badge, place.getName());
-        userBadgeRepository.save(userBadge);
+        UserBadge userBadge = userBadgeRepository.findByUserAndName(user, place.getName())
+                .orElseGet(() -> userBadgeRepository.save(UserBadge.of(user, badge, place.getName())));
 
         return userBadge;
     }
@@ -45,7 +45,7 @@ public class WalkService {
         Walk walk = Walk.of(user, place, walkRecordRequestDTO.getSteps());
         walkRepository.save(walk);
 
-        UserBadge userBadge = createPlaceBadge(place, user);
+        UserBadge userBadge = findOrCreatePlaceBadge(place, user);
 
         return WalkBadgeResponseDTO.from(userBadge);
     }
