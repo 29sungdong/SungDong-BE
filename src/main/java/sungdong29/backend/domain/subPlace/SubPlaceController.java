@@ -5,13 +5,12 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import sungdong29.backend.domain.subPlace.dto.response.MissionsResponseDTO;
-import sungdong29.backend.domain.subPlace.dto.response.SubPlaceResponseDTO;
 import sungdong29.backend.domain.subPlace.dto.response.SubPlacesResponseDTO;
 import sungdong29.backend.domain.subPlace.service.SubPlaceService;
-
-import java.util.List;
+import sungdong29.backend.global.config.user.UserDetails;
 
 @Slf4j
 @RestController
@@ -36,4 +35,13 @@ public class SubPlaceController {
         return ResponseEntity.ok(missionsResponseDTO);
     }
 
+    @Operation(summary = "특정 시설 미션 달성")
+    @GetMapping("/{subPlaceId}/missions/{missionId}")
+    public void accomplishMission(
+            @AuthenticationPrincipal UserDetails userDetails,
+            @PathVariable("subPlaceId") Long subPlaceId,
+            @PathVariable("missionId") Long missionId) {
+        log.info("특정 시설 미션 달성");
+        subPlaceService.accomplishMission(userDetails, subPlaceId, missionId);
+    }
 }

@@ -1,6 +1,5 @@
 package sungdong29.backend.domain.subPlace;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -18,6 +17,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @WithUserDetails
 public class SubPlaceControllerTest {
+
+//    @Mock
+//    private UserDetails userDetails;
+
     @Autowired
     private MockMvc mockMvc;
 
