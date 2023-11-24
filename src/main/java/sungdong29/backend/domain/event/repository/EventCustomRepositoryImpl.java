@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 import sungdong29.backend.domain.event.domain.Category;
 import sungdong29.backend.domain.event.domain.Event;
 import sungdong29.backend.domain.event.domain.QEvent;
+import sungdong29.backend.domain.place.domain.QPlace;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -17,6 +18,8 @@ public class EventCustomRepositoryImpl implements EventCustomRepository {
 
     private final JPAQueryFactory queryFactory;
 
+    QPlace qPlace = QPlace.place;
+
     QEvent qEvent = QEvent.event;
 
     @Override
@@ -24,6 +27,7 @@ public class EventCustomRepositoryImpl implements EventCustomRepository {
         LocalDateTime now = LocalDateTime.now();
 
         return queryFactory.selectFrom(qEvent)
+                .leftJoin(qEvent.place, qPlace).fetchJoin()        // Fetch join for Place
                 .where(eqCategory(categoryList))
                 .where(eqPlaceId(placeId))
                 .where(qEvent.endDateTime.after(now))
