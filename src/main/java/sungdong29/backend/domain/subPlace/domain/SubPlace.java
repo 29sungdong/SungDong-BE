@@ -25,11 +25,6 @@ public class SubPlace {
     @Size(max = 100)
     private String name;
 
-    @NotNull
-    @Column
-    private String xCoordinate;
-    private String yCoordinate;
-
     @ManyToOne
     @JoinColumn(name = "place_id")
     private Place place;
