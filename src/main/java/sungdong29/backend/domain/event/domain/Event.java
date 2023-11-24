@@ -37,7 +37,8 @@ public class Event extends BaseEntity {
     private Category category;
 
     @NotNull
-    private Integer price;
+    @Size(max = 20)
+    private String price;
 
     @NotNull
     private String url;
@@ -54,7 +55,7 @@ public class Event extends BaseEntity {
             Place place,
             String name,
             Category category,
-            Integer price,
+            String price,
             String url,
             LocalDateTime startDateTime,
             LocalDateTime endDateTime
