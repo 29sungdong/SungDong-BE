@@ -12,13 +12,15 @@ import java.time.LocalDateTime;
 public class SimpleEventVo {
 
     private Long placeId;
+    private String placeName;
     private String name;
     private LocalDateTime endDate;
     private String url;
 
     @Builder
-    private SimpleEventVo(Long placeId, String name, LocalDateTime endDate, String url) {
+    private SimpleEventVo(Long placeId, String placeName, String name, LocalDateTime endDate, String url) {
         this.placeId = placeId;
+        this.placeName = placeName;
         this.name = name;
         this.endDate = endDate;
         this.url = url;
@@ -27,6 +29,7 @@ public class SimpleEventVo {
     public static SimpleEventVo of(Event event) {
         return SimpleEventVo.builder()
                 .placeId(event.getPlace().getId())
+                .placeName(event.getPlace().getName())
                 .name(event.getName())
                 .endDate(event.getEndDateTime())
                 .url(event.getUrl())
