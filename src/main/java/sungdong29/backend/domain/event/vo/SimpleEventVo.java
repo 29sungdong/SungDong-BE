@@ -1,5 +1,6 @@
 package sungdong29.backend.domain.event.vo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,6 +15,7 @@ public class SimpleEventVo {
     private Long placeId;
     private String placeName;
     private String name;
+    @JsonFormat(pattern = "MM/dd HH:mm")
     private LocalDateTime endDate;
     private String url;
 
