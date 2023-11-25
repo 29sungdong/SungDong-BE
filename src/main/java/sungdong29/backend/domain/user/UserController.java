@@ -6,15 +6,18 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import sungdong29.backend.domain.user.dto.request.NicknameUpdateRequestDTO;
 import sungdong29.backend.domain.user.dto.request.TokenRequestDTO;
 import sungdong29.backend.domain.user.dto.request.UserRequestDTO;
 import sungdong29.backend.domain.user.dto.response.PlacesResponseDTO;
+import sungdong29.backend.domain.user.dto.response.StatsResponseDTO;
 import sungdong29.backend.domain.user.dto.response.TokenResponseDTO;
 import sungdong29.backend.domain.user.dto.response.UserResponseDTO;
 import sungdong29.backend.domain.user.service.UserService;
 import sungdong29.backend.global.config.LoginUser;
+import sungdong29.backend.global.config.user.UserDetails;
 
 @Slf4j
 @RestController
@@ -50,5 +53,13 @@ public class UserController {
     public ResponseEntity<PlacesResponseDTO> findVisitedPlaces(@LoginUser Long userId) {
         PlacesResponseDTO placesResponseDTO = userService.findVisitedPlaces(userId);
         return ResponseEntity.ok(placesResponseDTO);
+    }
+
+    @Operation(summary = "통계")
+    @GetMapping("stats")
+    public ResponseEntity<StatsResponseDTO> getUserStats(@AuthenticationPrincipal UserDetails userDetails) {
+        log.info("통계");
+        StatsResponseDTO statsResponseDTO = userService.getUserStats(userDetails);
+        return ResponseEntity.ok(statsResponseDTO);
     }
 }
