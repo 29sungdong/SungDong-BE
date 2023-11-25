@@ -18,7 +18,7 @@ public class Mission {
 
     @NotNull
     @Column
-    private String contents;
+    private String content;
 
     @ManyToOne
     @JoinColumn(name = "sub_place_id")
