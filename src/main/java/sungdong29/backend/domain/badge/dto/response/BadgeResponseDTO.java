@@ -9,24 +9,24 @@ import java.util.List;
 @Getter
 public class BadgeResponseDTO {
     private Long id;
-    private String category;
+    private String name;
     private String imageUrl;
-    private List<UserBadgeResponseDTO> achievedBadges;
+    private List<UserBadgeResponseDTO> badgeDetail;
 
     @Builder
-    private BadgeResponseDTO(Long id, String category, String imageUrl, List<UserBadgeResponseDTO> achievedBadges) {
+    private BadgeResponseDTO(Long id, String name, String imageUrl, List<UserBadgeResponseDTO> badgeDetail) {
         this.id= id;
-        this.category=category;
+        this.name=name;
         this.imageUrl= imageUrl;
-        this.achievedBadges=achievedBadges;
+        this.badgeDetail=badgeDetail;
     }
 
     public static BadgeResponseDTO of(Badge badge, List<UserBadgeResponseDTO> userBadges) {
         return BadgeResponseDTO.builder()
                 .id(badge.getId())
-                .category(badge.getCategory())
+                .name(badge.getName())
                 .imageUrl(badge.getImageUrl())
-                .achievedBadges(userBadges)
+                .badgeDetail(userBadges)
                 .build();
     }
 }

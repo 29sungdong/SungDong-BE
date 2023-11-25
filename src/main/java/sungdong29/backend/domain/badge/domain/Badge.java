@@ -2,11 +2,12 @@ package sungdong29.backend.domain.badge.domain;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.util.List;
 
 @Entity
 @Getter
@@ -18,11 +19,18 @@ public class Badge {
     private Long id;
 
     @NotNull
+    @Enumerated(EnumType.STRING)
+    private Category category;
+
+    @NotNull
     @Column
-    @Size(max = 100)
-    private String category;
+    private String name;
 
     @NotNull
     @Column
     private String imageUrl;
+
+    @OneToMany(mappedBy = "badge")
+    private List<UserBadge> userBadges;
+
 }
