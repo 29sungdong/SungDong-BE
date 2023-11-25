@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import sungdong29.backend.domain.user.dto.request.NicknameUpdateRequestDTO;
 import sungdong29.backend.domain.user.dto.request.TokenRequestDTO;
 import sungdong29.backend.domain.user.dto.request.UserRequestDTO;
+import sungdong29.backend.domain.user.dto.response.PlacesResponseDTO;
 import sungdong29.backend.domain.user.dto.response.StatsResponseDTO;
 import sungdong29.backend.domain.user.dto.response.TokenResponseDTO;
 import sungdong29.backend.domain.user.dto.response.UserResponseDTO;
@@ -45,6 +46,13 @@ public class UserController {
     public ResponseEntity<UserResponseDTO> updateUserNickname(@LoginUser Long userId, @RequestBody NicknameUpdateRequestDTO nicknameUpdateRequestDTO) {
         UserResponseDTO userResponseDTO = userService.updateUserNickname(userId, nicknameUpdateRequestDTO);
         return ResponseEntity.ok(userResponseDTO);
+    }
+
+    @Operation(summary = "방문한 장소 조회")
+    @GetMapping("places")
+    public ResponseEntity<PlacesResponseDTO> findVisitedPlaces(@LoginUser Long userId) {
+        PlacesResponseDTO placesResponseDTO = userService.findVisitedPlaces(userId);
+        return ResponseEntity.ok(placesResponseDTO);
     }
 
     @Operation(summary = "통계")

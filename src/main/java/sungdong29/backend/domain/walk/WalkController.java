@@ -6,9 +6,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import sungdong29.backend.domain.place.dto.response.PlaceListResponseDTO;
 import sungdong29.backend.domain.walk.dto.request.WalkRecordRequestDTO;
-import sungdong29.backend.domain.walk.dto.response.WalkBadgeResponseDTO;
 import sungdong29.backend.domain.walk.service.WalkService;
 import sungdong29.backend.global.config.LoginUser;
 
@@ -22,11 +20,11 @@ public class WalkController {
 
     @Operation(summary = "산책 기록 저장")
     @PostMapping(value = "places/{placeId}/walk")
-    public ResponseEntity<WalkBadgeResponseDTO> createWalkRecord(
+    public ResponseEntity<Void> createWalkRecord(
             @LoginUser Long userId,
             @PathVariable Long placeId,
             @RequestBody WalkRecordRequestDTO walkRecordRequestDTO) {
-        WalkBadgeResponseDTO walkBadgeResponseDTO = walkService.createWalkRecord(userId, placeId, walkRecordRequestDTO);
-        return ResponseEntity.ok(walkBadgeResponseDTO);
+        walkService.createWalkRecord(userId, placeId, walkRecordRequestDTO);
+        return ResponseEntity.ok().build();
     }
 }

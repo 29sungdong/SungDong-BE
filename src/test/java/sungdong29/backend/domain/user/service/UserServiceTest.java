@@ -5,17 +5,17 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import sungdong29.backend.BackendApplication;
 import sungdong29.backend.domain.user.dto.request.TokenRequestDTO;
 import sungdong29.backend.domain.user.dto.request.UserRequestDTO;
 import sungdong29.backend.domain.user.dto.response.UserResponseDTO;
-import sungdong29.backend.domain.user.exception.DuplicateNickname;
 import sungdong29.backend.domain.user.exception.DuplicateUsername;
 import sungdong29.backend.domain.user.exception.UserNotFound;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-@SpringBootTest
+@SpringBootTest(classes = BackendApplication.class)
 public class UserServiceTest {
 
     @Autowired
