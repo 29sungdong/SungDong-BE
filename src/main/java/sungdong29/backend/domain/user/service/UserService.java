@@ -1,10 +1,9 @@
 package sungdong29.backend.domain.user.service;
 
-
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import sungdong29.backend.domain.badge.service.BadgeService;
 import sungdong29.backend.domain.user.domain.User;
 import sungdong29.backend.domain.user.dto.request.NicknameUpdateRequestDTO;
 import sungdong29.backend.domain.user.dto.request.TokenRequestDTO;
@@ -18,11 +17,14 @@ import sungdong29.backend.domain.user.repository.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import sungdong29.backend.global.config.jwt.TokenProvider;
 
+import static sungdong29.backend.domain.badge.domain.Category.WELCOME;
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
 public class UserService {
     private final UserRepository userRepository;
+    private final BadgeService badgeService;
     private final PasswordEncoder passwordEncoder;
     private final TokenProvider tokenProvider;
 
@@ -53,6 +55,8 @@ public class UserService {
                 .password(password)
                 .build();
         userRepository.save(user);
+
+        badgeService.createBadge(WELCOME, user, WELCOME.getCategory());
 
         return UserResponseDTO.from(user);
     }
