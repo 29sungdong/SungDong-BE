@@ -1,14 +1,17 @@
 package sungdong29.backend.domain.user.service;
 
 
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import sungdong29.backend.domain.place.domain.Place;
+import sungdong29.backend.domain.place.repository.PlaceRepository;
 import sungdong29.backend.domain.user.domain.User;
 import sungdong29.backend.domain.user.dto.request.NicknameUpdateRequestDTO;
 import sungdong29.backend.domain.user.dto.request.TokenRequestDTO;
 import sungdong29.backend.domain.user.dto.request.UserRequestDTO;
+import sungdong29.backend.domain.user.dto.response.PlaceResponseDTO;
+import sungdong29.backend.domain.user.dto.response.PlacesResponseDTO;
 import sungdong29.backend.domain.user.dto.response.TokenResponseDTO;
 import sungdong29.backend.domain.user.dto.response.UserResponseDTO;
 import sungdong29.backend.domain.user.exception.DuplicateNickname;
@@ -16,13 +19,19 @@ import sungdong29.backend.domain.user.exception.DuplicateUsername;
 import sungdong29.backend.domain.user.exception.UserNotFound;
 import sungdong29.backend.domain.user.repository.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import sungdong29.backend.domain.walk.repository.WalkRepository;
 import sungdong29.backend.global.config.jwt.TokenProvider;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
 @RequiredArgsConstructor
 public class UserService {
     private final UserRepository userRepository;
+    private final PlaceRepository placeRepository;
+    private final WalkRepository walkRepository;
     private final PasswordEncoder passwordEncoder;
     private final TokenProvider tokenProvider;
 
@@ -78,5 +87,14 @@ public class UserService {
         user.updateNickname(nickname);
 
         return UserResponseDTO.from(user);
+    }
+
+    public PlacesResponseDTO findVisitedPlaces(Long userId) {
+        List<Place> places=placeRepository.findAll();
+        List<PlaceResponseDTO> placeResponseDTOS = places.stream()
+                .map(place -> PlaceResponseDTO.of(place, walkRepository.existsByUserIdAndPlaceId(userId, place.getId())))
+                .collect(Collectors.toList());
+
+        return PlacesResponseDTO.from(placeResponseDTOS);
     }
 }
