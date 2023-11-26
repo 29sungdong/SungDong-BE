@@ -1,4 +1,4 @@
-package sungdong29.backend.domain.subPlace;
+package sungdong29.backend.domain.mission;
 
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.DisplayName;
@@ -16,16 +16,15 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @WithUserDetails
-public class SubPlaceControllerTest {
+public class MissionControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
-    @DisplayName("시설 조회 컨트롤러 테스트")
+    @DisplayName("특정 시설 미션 조회 컨트롤러 테스트")
     @Test
     @Transactional
-    public void testFindSubPlace() throws Exception {
-        mockMvc.perform(get("/sub-places")
-                .param("placeId", "1"))
+    public void testFindMissions() throws Exception {
+        mockMvc.perform(get("/missions?subPlaceId=1"))
                 .andExpect(status().isOk())
                 .andDo(print());
     }
