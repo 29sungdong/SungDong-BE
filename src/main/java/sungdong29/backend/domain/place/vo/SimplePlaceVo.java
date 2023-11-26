@@ -16,9 +16,11 @@ public class SimplePlaceVo {
     private String tel;
     private String openingTime;
     private String closingTime;
+    private String xCoordinate;
+    private String yCoordinate;
 
     @Builder
-    private SimplePlaceVo(Long id, String name, String image, String address, String tel, String openingTime, String closingTime) {
+    private SimplePlaceVo(Long id, String name, String image, String address, String tel, String openingTime, String closingTime, String xCoordinate, String yCoordinate) {
         this.id = id;
         this.name = name;
         this.image = image;
@@ -26,6 +28,8 @@ public class SimplePlaceVo {
         this.tel = tel;
         this.openingTime = openingTime;
         this.closingTime = closingTime;
+        this.xCoordinate = xCoordinate;
+        this.yCoordinate = yCoordinate;
     }
 
     public static SimplePlaceVo from(Place place) {
@@ -37,6 +41,8 @@ public class SimplePlaceVo {
                 .tel(place.getTel())
                 .openingTime(place.getOpeningTime())
                 .closingTime(place.getClosingTime())
+                .xCoordinate(place.getXCoordinate())
+                .yCoordinate(place.getYCoordinate())
                 .build();
     }
 }
