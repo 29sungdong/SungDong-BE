@@ -1,4 +1,4 @@
-package sungdong29.backend.domain.subPlace.dto.response;
+package sungdong29.backend.domain.mission.dto.response;
 
 import lombok.Getter;
 import lombok.Setter;

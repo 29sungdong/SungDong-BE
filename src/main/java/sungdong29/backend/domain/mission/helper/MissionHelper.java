@@ -1,10 +1,10 @@
-package sungdong29.backend.domain.subPlace.helper;
+package sungdong29.backend.domain.mission.helper;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import sungdong29.backend.domain.subPlace.domain.Mission;
-import sungdong29.backend.domain.subPlace.exception.MissionNotFound;
-import sungdong29.backend.domain.subPlace.repository.MissionRepository;
+import sungdong29.backend.domain.mission.domain.Mission;
+import sungdong29.backend.domain.mission.exception.MissionNotFound;
+import sungdong29.backend.domain.mission.repository.MissionRepository;
 
 @Component
 @RequiredArgsConstructor

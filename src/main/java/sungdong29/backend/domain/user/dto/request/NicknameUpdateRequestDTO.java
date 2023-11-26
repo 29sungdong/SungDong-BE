@@ -5,6 +5,6 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
-public class NicknameUpdateRequestDTO {
+public class  NicknameUpdateRequestDTO {
     private String nickname;
 }

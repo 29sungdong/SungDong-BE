@@ -1,4 +1,4 @@
-package sungdong29.backend.domain.subPlace.domain;
+package sungdong29.backend.domain.mission.domain;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;

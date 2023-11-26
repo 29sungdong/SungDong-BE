@@ -7,6 +7,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import sungdong29.backend.domain.mission.domain.Mission;
 import sungdong29.backend.domain.place.domain.Place;
 
 import java.util.List;
