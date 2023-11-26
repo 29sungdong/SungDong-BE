@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class SubPlaceService {
+public class  SubPlaceService {
 
     private final SubPlaceRepository subPlaceRepository;
     private final ModelMapper mapper;
@@ -24,6 +24,6 @@ public class SubPlaceService {
                 .stream()
                 .map(subPlace -> mapper.map(subPlace, SubPlaceResponseDTO.class))
                 .collect(Collectors.toList());
-        return new SubPlacesResponseDTO(subPlaceResponseDTOS);
+        return SubPlacesResponseDTO.from(subPlaceResponseDTOS);
     }
 }

@@ -34,7 +34,7 @@ public class  MissionService {
                 .stream()
                 .map(mission -> mapper.map(mission, MissionResponseDTO.class))
                 .collect(Collectors.toList());
-        return new MissionsResponseDTO(missionResponseDTOS);
+        return MissionsResponseDTO.from(missionResponseDTOS);
     }
 
     public void accomplishMission(UserDetails userDetails, Long missionId) {
