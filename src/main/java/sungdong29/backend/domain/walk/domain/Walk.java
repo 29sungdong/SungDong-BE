@@ -32,20 +32,16 @@ public class Walk {
     @CreatedDate
     private LocalDateTime createdAt;
 
-    private Integer steps;
-
     @Builder
-    private Walk(User user, Place place, Integer steps) {
+    private Walk(User user, Place place) {
         this.user=user;
         this.place=place;
-        this.steps=steps;
     }
 
-    public static Walk of(User user, Place place, Integer steps) {
+    public static Walk of(User user, Place place) {
         return Walk.builder()
                 .user(user)
                 .place(place)
-                .steps(steps)
                 .build();
     }
 }
