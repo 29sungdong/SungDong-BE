@@ -1,14 +1,11 @@
 package sungdong29.backend.domain.badge.service;
 
 import lombok.RequiredArgsConstructor;
-import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
-import sungdong29.backend.domain.badge.domain.Badge;
 import sungdong29.backend.domain.badge.domain.UserBadge;
 import sungdong29.backend.domain.badge.dto.response.BadgeResponseDTO;
 import sungdong29.backend.domain.badge.dto.response.BadgesResponseDTO;
 import sungdong29.backend.domain.badge.dto.response.UserBadgeResponseDTO;
-import sungdong29.backend.domain.badge.repository.BadgeRepository;
 import sungdong29.backend.domain.badge.repository.UserBadgeRepository;
 
 import java.util.List;

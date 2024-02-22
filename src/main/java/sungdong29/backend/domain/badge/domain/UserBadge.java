@@ -6,7 +6,6 @@ import sungdong29.backend.domain.user.domain.User;
 
 @Entity
 @Getter
-@Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class UserBadge {
     @Id

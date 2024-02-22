@@ -28,7 +28,7 @@ public class SimpleEventVo {
         this.url = url;
     }
 
-    public static SimpleEventVo of(Event event) {
+    public static SimpleEventVo from(Event event) {
         return SimpleEventVo.builder()
                 .placeId(event.getPlace().getId())
                 .placeName(event.getPlace().getName())

@@ -6,13 +6,13 @@ import sungdong29.backend.domain.place.repository.PlaceRepository;
 import sungdong29.backend.domain.mission.repository.MissionRepository;
 import sungdong29.backend.domain.mission.repository.UserMissionRepository;
 import sungdong29.backend.domain.user.domain.User;
-import sungdong29.backend.domain.walk.repository.WalkRepository;
+import sungdong29.backend.domain.walk.repository.WalkHistoryRepository;
 
 @Component
 @RequiredArgsConstructor
 public class UserHelper {
 
-    private final WalkRepository walkRepository;
+    private final WalkHistoryRepository walkRepository;
     private final PlaceRepository placeRepository;
     private final UserMissionRepository userMissionRepository;
     private final MissionRepository missionRepository;
