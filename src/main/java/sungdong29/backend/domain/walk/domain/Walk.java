@@ -1,47 +1,31 @@
 package sungdong29.backend.domain.walk.domain;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.AccessLevel;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-import sungdong29.backend.domain.place.domain.Place;
-import sungdong29.backend.domain.user.domain.User;
-
-import java.time.LocalDateTime;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
-@EntityListeners(AuditingEntityListener.class)
 public class Walk {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "walk_id")
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name="user_id")
-    private User user;
+    @NotNull
+    @Size(max = 20)
+    private String name;
 
-    @ManyToOne
-    @JoinColumn(name="place_id")
-    private Place place;
+    @NotNull
+    @Size(max = 50)
+    private String xCoordinate;
 
-    @CreatedDate
-    private LocalDateTime createdAt;
-
-    @Builder
-    private Walk(User user, Place place) {
-        this.user=user;
-        this.place=place;
-    }
-
-    public static Walk of(User user, Place place) {
-        return Walk.builder()
-                .user(user)
-                .place(place)
-                .build();
-    }
+    @NotNull
+    @Size(max = 50)
+    private String yCoordinate;
 }

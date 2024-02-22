@@ -21,7 +21,7 @@ import sungdong29.backend.domain.user.exception.DuplicateUsername;
 import sungdong29.backend.domain.user.exception.UserNotFound;
 import sungdong29.backend.domain.user.helper.UserHelper;
 import sungdong29.backend.domain.user.repository.UserRepository;
-import sungdong29.backend.domain.walk.repository.WalkRepository;
+import sungdong29.backend.domain.walk.repository.WalkHistoryRepository;
 import sungdong29.backend.global.config.jwt.TokenProvider;
 import sungdong29.backend.global.config.user.UserDetails;
 
@@ -36,7 +36,7 @@ public class UserService {
     private final UserHelper userHelper;
     private final UserRepository userRepository;
     private final PlaceRepository placeRepository;
-    private final WalkRepository walkRepository;
+    private final WalkHistoryRepository walkHistoryRepository;
     private final PasswordEncoder passwordEncoder;
     private final TokenProvider tokenProvider;
 
@@ -97,7 +97,7 @@ public class UserService {
     public PlacesResponseDTO findVisitedPlaces(Long userId) {
         List<Place> places = placeRepository.findAll();
         List<PlaceResponseDTO> placeResponseDTOS = places.stream()
-                .map(place -> PlaceResponseDTO.of(place, walkRepository.existsByUserIdAndPlaceId(userId, place.getId())))
+                .map(place -> PlaceResponseDTO.of(place, walkHistoryRepository.existsByUserIdAndPlaceId(userId, place.getId())))
                 .collect(Collectors.toList());
 
         return PlacesResponseDTO.from(placeResponseDTOS);
