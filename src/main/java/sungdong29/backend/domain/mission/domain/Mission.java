@@ -5,11 +5,9 @@ import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 import sungdong29.backend.domain.subPlace.domain.SubPlace;
 
 @Getter
-@Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 public class Mission {

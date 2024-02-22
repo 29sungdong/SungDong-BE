@@ -17,14 +17,13 @@ public class EventHelper {
 
     private final EventRepository eventRepository;
 
-    public List<Event> getEventList(List<SortCategoryType> sortCategoryList, Long placeId) {
+    public List<Event> getEventList(List<Category> categoryList, Long placeId) {
         List<Event> events;
 
-        if (sortCategoryList == null || sortCategoryList.isEmpty()) {
+        if (categoryList == null || categoryList.isEmpty()) {
             events = eventRepository.findByFilter(null, placeId);
         }
         else {
-            List<Category> categoryList = toCategoryList(sortCategoryList);
             events = eventRepository.findByFilter(categoryList, placeId);
         }
 

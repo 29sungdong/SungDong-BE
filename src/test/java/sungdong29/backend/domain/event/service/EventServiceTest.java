@@ -5,8 +5,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import sungdong29.backend.BackendApplication;
+import sungdong29.backend.domain.event.domain.Category;
 import sungdong29.backend.domain.event.dto.response.EventListResponseDTO;
-import sungdong29.backend.domain.event.enums.SortCategoryType;
 import sungdong29.backend.domain.event.helper.EventHelper;
 
 import java.util.ArrayList;
@@ -40,8 +40,8 @@ class EventServiceTest {
     @Test
     void getEventsByCategory() {
         // given
-        List<SortCategoryType> category = new ArrayList<>();
-        category.add(SortCategoryType.CULTURE);
+        List<Category> category = new ArrayList<>();
+        category.add(Category.CULTURE);
 
         // when
         EventListResponseDTO eventListDTO = eventService.getEventList(category, null);

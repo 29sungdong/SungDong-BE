@@ -13,7 +13,7 @@ public class EventMapper {
     public EventListResponseDTO toEventListDTO(List<Event> events) {
         List<SimpleEventVo> mapEvents =
                 events.stream()
-                        .map(SimpleEventVo::of)
+                        .map(SimpleEventVo::from)
                         .toList();
         return EventListResponseDTO.from(mapEvents);
     }
