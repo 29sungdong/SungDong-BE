@@ -20,10 +20,15 @@ public class WalkHelper {
     @Value("${openapi.tmap.key}")
     private String TMAP_APP_KEY;
 
-    public List<List<Double>> getLineString(String xCoordinate, String yCoordinate, Place place, Walk walk) {
+    public List<List<Double>> getLineString(String startX, String startY, Place place, double walkX, double walkY) {
         OkHttpClient client = new OkHttpClient();
         MediaType mediaType = MediaType.parse("application/json");
-        String jsonString = "{\"startX\":" + xCoordinate + ",\"startY\":" + yCoordinate + ",\"endX\":" + place.getXCoordinate() + ",\"endY\":" + place.getYCoordinate() + ",\"passList\":\"" + walk.getXCoordinate() + ", " + walk.getYCoordinate() + "\",\"startName\":\"내 위치\",\"endName\":\"" + place.getName() + "\"}";
+
+        String passListString = "";
+        if (walkX != 0 && walkY != 0) {
+            passListString = ",\"passList\":" + "\"" + walkX + ", " + walkY + "\"";
+        }
+        String jsonString = "{\"startX\":" + startX + ",\"startY\":" + startY + ",\"endX\":" + place.getXCoordinate() + ",\"endY\":" + place.getYCoordinate() + passListString + ",\"startName\":\"내 위치\",\"endName\":\"" + place.getName() + "\"}";
         RequestBody body = RequestBody.create(jsonString, mediaType);
         Request request = new Request.Builder()
                 .url("https://apis.openapi.sk.com/tmap/routes/pedestrian?version=1&callback=function")
