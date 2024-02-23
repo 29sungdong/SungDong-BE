@@ -22,10 +22,8 @@ public class Walk {
     private String name;
 
     @NotNull
-    @Size(max = 50)
-    private String xCoordinate;
+    private double xCoordinate;
 
     @NotNull
-    @Size(max = 50)
-    private String yCoordinate;
+    private double yCoordinate;
 }
