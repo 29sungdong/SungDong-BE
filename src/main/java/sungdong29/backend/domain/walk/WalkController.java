@@ -8,7 +8,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+import sungdong29.backend.domain.walk.dto.response.ShortestPathResponseDTO;
 import sungdong29.backend.domain.walk.dto.response.WalkPathResponseDTO;
+import sungdong29.backend.domain.walk.dto.response.WalkPathsResponseDTO;
 import sungdong29.backend.domain.walk.service.WalkService;
 import sungdong29.backend.global.config.user.UserDetails;
 
@@ -22,12 +24,22 @@ public class WalkController {
 
     @Operation(summary = "산책로 경로 반환")
     @GetMapping("places/{placeId}")
-    public WalkPathResponseDTO getWalkPath(
+    public WalkPathsResponseDTO getWalkPath(
             @RequestParam String xCoordinate,
             @RequestParam String yCoordinate,
             @PathVariable Long placeId
             ) {
         return walkService.getWalkPath(xCoordinate, yCoordinate, placeId);
+    }
+
+    @Operation(summary = "최단 경로 반환")
+    @GetMapping("places/{placeId}/shortest")
+    public ShortestPathResponseDTO getShortestPath(
+            @RequestParam String xCoordinate,
+            @RequestParam String yCoordinate,
+            @PathVariable Long placeId
+    ) {
+        return walkService.getShortestPath(xCoordinate, yCoordinate, placeId);
     }
 
     @Operation(summary = "산책 기록 저장")
