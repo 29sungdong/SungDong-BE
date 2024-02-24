@@ -20,7 +20,15 @@ public class SimplePlaceVo {
     private String yCoordinate;
 
     @Builder
-    private SimplePlaceVo(Long id, String name, String image, String address, String tel, String openingTime, String closingTime, String xCoordinate, String yCoordinate) {
+    private SimplePlaceVo(Long id,
+                          String name,
+                          String image,
+                          String address,
+                          String tel,
+                          String openingTime,
+                          String closingTime,
+                          String xCoordinate,
+                          String yCoordinate) {
         this.id = id;
         this.name = name;
         this.image = image;

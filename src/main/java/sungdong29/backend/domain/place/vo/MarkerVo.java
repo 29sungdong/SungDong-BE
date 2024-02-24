@@ -11,6 +11,7 @@ public class MarkerVo {
 
     private Long id;
     private String name;
+    private String image;
     private String xCoordinate;
     private String yCoordinate;
     private String openingTime;
@@ -21,6 +22,7 @@ public class MarkerVo {
     private MarkerVo(
             Long id,
             String name,
+            String image,
             String xCoordinate,
             String yCoordinate,
             String openingTime,
@@ -28,6 +30,7 @@ public class MarkerVo {
             Boolean hasEvent) {
         this.id = id;
         this.name = name;
+        this.image = image;
         this.xCoordinate = xCoordinate;
         this.yCoordinate = yCoordinate;
         this.openingTime = openingTime;
@@ -39,6 +42,7 @@ public class MarkerVo {
         return MarkerVo.builder()
                 .id(place.getId())
                 .name(place.getName())
+                .image(place.getImage())
                 .xCoordinate(place.getXCoordinate())
                 .yCoordinate(place.getYCoordinate())
                 .openingTime(place.getOpeningTime())
