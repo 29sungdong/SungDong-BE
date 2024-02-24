@@ -24,21 +24,27 @@ public class WalkPathResponseDTO {
             String name,
             double xCoordinate,
             double yCoordinate,
+            int totalTime,
+            int totalDistance,
             List<List<Double>> coordinates) {
         this.id = id;
         this.name = name;
         this.xCoordinate = xCoordinate;
         this.yCoordinate = yCoordinate;
+        this.totalTime = totalTime;
+        this.totalDistance = totalDistance;
         this.coordinates = coordinates;
     }
 
-    public static WalkPathResponseDTO of(Walk walk, List<List<Double>> coordinates) {
+    public static WalkPathResponseDTO of(Walk walk, TmapPathResponseDTO path) {
         return WalkPathResponseDTO.builder()
                 .id(walk.getId())
                 .name(walk.getName())
                 .xCoordinate(walk.getXCoordinate())
                 .yCoordinate(walk.getYCoordinate())
-                .coordinates(coordinates)
+                .totalTime(path.getTotalTime())
+                .totalDistance(path.getTotalDistance())
+                .coordinates(path.getCoordinates())
                 .build();
     }
 }

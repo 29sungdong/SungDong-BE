@@ -9,19 +9,25 @@ import java.util.List;
 @Getter
 public class ShortestPathResponseDTO {
 
-    private int totalDistance;
     private int totalTime;
+    private int totalDistance;
     private List<List<Double>> coordinates;
 
     @Builder
     private ShortestPathResponseDTO(
+            int totalTime,
+            int totalDistance,
             List<List<Double>> coordinates) {
+        this.totalTime = totalTime;
+        this.totalDistance = totalDistance;
         this.coordinates = coordinates;
     }
 
-    public static ShortestPathResponseDTO from(List<List<Double>> coordinates) {
+    public static ShortestPathResponseDTO from(TmapPathResponseDTO path) {
         return ShortestPathResponseDTO.builder()
-                .coordinates(coordinates)
+                .totalTime(path.getTotalTime())
+                .totalDistance(path.getTotalDistance())
+                .coordinates(path.getCoordinates())
                 .build();
     }
 }

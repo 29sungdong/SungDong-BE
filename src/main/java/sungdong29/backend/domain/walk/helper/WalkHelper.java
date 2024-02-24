@@ -9,6 +9,8 @@ import okhttp3.*;
 import org.springframework.stereotype.Component;
 import sungdong29.backend.domain.place.domain.Place;
 import sungdong29.backend.domain.walk.domain.Walk;
+import sungdong29.backend.domain.walk.dto.response.TmapPathResponseDTO;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +22,7 @@ public class WalkHelper {
     @Value("${openapi.tmap.key}")
     private String TMAP_APP_KEY;
 
-    public List<List<Double>> getLineString(String startX, String startY, Place place, double walkX, double walkY) {
+    public TmapPathResponseDTO getLineString(String startX, String startY, Place place, double walkX, double walkY) {
         OkHttpClient client = new OkHttpClient();
         MediaType mediaType = MediaType.parse("application/json");
 
@@ -47,7 +49,9 @@ public class WalkHelper {
         return null;
     }
 
-    private static List<List<Double>> extractLineStringCoordinates(String stringResponse) {
+    private static TmapPathResponseDTO extractLineStringCoordinates(String stringResponse) {
+        int totalTime = 0;
+        int totalDistance = 0;
         List<List<Double>> lineStringCoordinates = new ArrayList<>();
 
         JSONObject jsonObject = new JSONObject(stringResponse);
@@ -56,6 +60,12 @@ public class WalkHelper {
         for (int i = 0; i < features.length(); i++) {
             JSONObject feature = features.getJSONObject(i);
             JSONObject geometry = feature.getJSONObject("geometry");
+            JSONObject properties = feature.getJSONObject("properties");
+
+            if(properties.has("totalDistance") && properties.has("totalTime")) {
+                totalDistance = properties.getInt("totalDistance");
+                totalTime = properties.getInt("totalTime");
+            }
 
             if ("LineString".equals(geometry.getString("type"))) {
                 JSONArray coordinatesArray = geometry.getJSONArray("coordinates");
@@ -74,7 +84,6 @@ public class WalkHelper {
                 }
             }
         }
-        return lineStringCoordinates;
+        return TmapPathResponseDTO.of(totalDistance, totalTime, lineStringCoordinates);
     }
-
 }

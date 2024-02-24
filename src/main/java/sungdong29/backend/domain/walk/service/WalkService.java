@@ -13,6 +13,7 @@ import sungdong29.backend.domain.user.domain.User;
 import sungdong29.backend.domain.walk.domain.Walk;
 import sungdong29.backend.domain.walk.domain.WalkHistory;
 import sungdong29.backend.domain.walk.dto.response.ShortestPathResponseDTO;
+import sungdong29.backend.domain.walk.dto.response.TmapPathResponseDTO;
 import sungdong29.backend.domain.walk.dto.response.WalkPathResponseDTO;
 import sungdong29.backend.domain.walk.dto.response.WalkPathsResponseDTO;
 import sungdong29.backend.domain.walk.helper.WalkHelper;
@@ -36,8 +37,8 @@ public class WalkService {
     @Transactional
     public ShortestPathResponseDTO getShortestPath(String startX, String startY, Long placeId) {
         Place place = placeHelper.getPlaceById(placeId);
-        List<List<Double>> lineString = walkHelper.getLineString(startX, startY, place, 0, 0);
-        return ShortestPathResponseDTO.from(lineString);
+        TmapPathResponseDTO path = walkHelper.getLineString(startX, startY, place, 0, 0);
+        return ShortestPathResponseDTO.from(path);
     }
 
     @Transactional
@@ -49,8 +50,8 @@ public class WalkService {
         Page<Walk> closeWalks = walkRepository.findClosestWalk(startX, startY, place.getXCoordinate(), place.getYCoordinate(), pageable);
 
         for (Walk walk : closeWalks.getContent()) {
-            List<List<Double>> lineString = walkHelper.getLineString(startX, startY, place, walk.getXCoordinate(), walk.getYCoordinate());
-            paths.add(WalkPathResponseDTO.of(walk, lineString));
+            TmapPathResponseDTO path = walkHelper.getLineString(startX, startY, place, walk.getXCoordinate(), walk.getYCoordinate());
+            paths.add(WalkPathResponseDTO.of(walk, path));
 
         }
         return WalkPathsResponseDTO.from(paths);
