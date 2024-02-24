@@ -8,6 +8,7 @@ import sungdong29.backend.domain.event.enums.SortCategoryType;
 import sungdong29.backend.domain.event.exception.EventNotFound;
 import sungdong29.backend.domain.event.repository.EventRepository;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,5 +51,15 @@ public class EventHelper {
         }
 
         return categories;
+    }
+
+    public List<Event> filterEventsOnDate(List<Event> events, LocalDateTime date) {
+        List<Event> eventsOnDate = new ArrayList<>();
+        for (Event event : events) {
+            if (event.getStartDateTime().isBefore(date) && event.getEndDateTime().isAfter(date)) {
+                eventsOnDate.add(event);
+            }
+        }
+        return eventsOnDate;
     }
 }
