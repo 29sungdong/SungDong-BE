@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import sungdong29.backend.domain.event.domain.Category;
 import sungdong29.backend.domain.event.domain.Event;
-import sungdong29.backend.domain.event.enums.SortCategoryType;
 import sungdong29.backend.domain.event.exception.EventNotFound;
 import sungdong29.backend.domain.event.repository.EventRepository;
 
@@ -33,24 +32,6 @@ public class EventHelper {
         }
 
         return events;
-    }
-    
-    private List<Category> toCategoryList(List<SortCategoryType> sortType) {
-        List<Category> categories = new ArrayList<>();
-
-        for (SortCategoryType type : sortType) {
-            switch (type) {
-                case EDUCATION -> categories.add(Category.EDUCATION);
-                case FARM -> categories.add(Category.FARM);
-                case CULTURE -> categories.add(Category.CULTURE);
-                case EXHIBITION -> categories.add(Category.EXHIBITION);
-                case VOLUNTEER -> categories.add(Category.VOLUNTEER);
-                case PARK -> categories.add(Category.PARK);
-                case FOREST -> categories.add(Category.FOREST);
-            }
-        }
-
-        return categories;
     }
 
     public List<Event> filterEventsOnDate(List<Event> events, LocalDateTime date) {
