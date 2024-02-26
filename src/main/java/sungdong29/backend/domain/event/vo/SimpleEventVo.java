@@ -16,7 +16,7 @@ public class SimpleEventVo {
     private String placeName;
     private String name;
     private String placeImage;
-    @JsonFormat(pattern = "MM/dd HH:mm")
+    @JsonFormat(pattern = "yyyy/MM/dd HH:mm")
     private LocalDateTime endDate;
     private String url;
 
