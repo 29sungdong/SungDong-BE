@@ -15,14 +15,16 @@ public class SimpleEventVo {
     private Long placeId;
     private String placeName;
     private String name;
+    private String placeImage;
     @JsonFormat(pattern = "MM/dd HH:mm")
     private LocalDateTime endDate;
     private String url;
 
     @Builder
-    private SimpleEventVo(Long placeId, String placeName, String name, LocalDateTime endDate, String url) {
+    private SimpleEventVo(Long placeId, String placeName, String placeImage, String name, LocalDateTime endDate, String url) {
         this.placeId = placeId;
         this.placeName = placeName;
+        this.placeImage = placeImage;
         this.name = name;
         this.endDate = endDate;
         this.url = url;
@@ -32,6 +34,7 @@ public class SimpleEventVo {
         return SimpleEventVo.builder()
                 .placeId(event.getPlace().getId())
                 .placeName(event.getPlace().getName())
+                .placeImage(event.getPlace().getImage())
                 .name(event.getName())
                 .endDate(event.getEndDateTime())
                 .url(event.getUrl())
