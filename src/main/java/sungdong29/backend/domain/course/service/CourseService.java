@@ -65,7 +65,6 @@ public class CourseService {
         }
 
         // 수정중
-
         return CourseIdResponseDTO.from(course.getId());
     }
 
