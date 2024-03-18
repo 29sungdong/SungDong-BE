@@ -1,7 +1,10 @@
 package sungdong29.backend.domain.course.domain;
 
 import jakarta.persistence.*;
+import lombok.AccessLevel;
 import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import sungdong29.backend.domain.user.domain.User;
 
 @Entity
