@@ -4,6 +4,9 @@ import jakarta.persistence.*;
 import lombok.Builder;
 import sungdong29.backend.domain.user.domain.User;
 
+@Entity
+@Getter
+@NoArgsConstructor(access = lombok.AccessLevel.PROTECTED)
 public class CourseLike {
 
     @Id
