@@ -5,10 +5,14 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import sungdong29.backend.domain.course.domain.Course;
+import sungdong29.backend.domain.course.dto.response.SimpleCourseResponseDTO;
+import sungdong29.backend.domain.course.repository.CourseLikeRepository;
 import sungdong29.backend.domain.course.repository.CoursePlaceRepository;
 import sungdong29.backend.domain.event.repository.EventRepository;
 import sungdong29.backend.domain.place.domain.Category;
 import sungdong29.backend.domain.place.domain.Place;
+import sungdong29.backend.domain.place.dto.response.DetailedPlaceResponseDTO;
 import sungdong29.backend.domain.place.dto.response.MarkerResponseDTO;
 import sungdong29.backend.domain.place.dto.response.PlaceResponseDTO;
 import sungdong29.backend.domain.place.dto.response.SimplePlaceResponseDTO;
@@ -28,14 +32,26 @@ public class PlaceService {
     private final EventRepository eventRepository;
     private final PlaceLikeRepository placeLikeRepository;
     private final CoursePlaceRepository coursePlaceRepository;
+    private final CourseLikeRepository courseLikeRepository;
     private final PlaceHelper placeHelper;
 
     @Transactional(readOnly = true)
-    public PlaceResponseDTO getPlaceById(Long id) {
+    public DetailedPlaceResponseDTO getPlaceById(Long id) {
         Place place = placeHelper.getPlaceById(id);
         Long likeCount = placeLikeRepository.countByPlace(place);
         Long courseCount = coursePlaceRepository.countDistinctByPlace(place);
-        return PlaceResponseDTO.of(place, likeCount, courseCount);
+
+        PlaceResponseDTO placeResponseDTO = PlaceResponseDTO.of(place, likeCount, courseCount);
+        List<Course> courses = coursePlaceRepository.findDistinctCourseByPlace(place);
+        List<SimpleCourseResponseDTO> simpleCourseResponseDTO = courses.stream()
+                .map(course -> SimpleCourseResponseDTO.of(course, courseLikeRepository.countByCourse(course)))
+                .toList();
+        List<Place> places = placeRepository.findByDistanceAscWithLimitExceptMe(place.getXCoordinate(), place.getYCoordinate(), place.getId(), 3);
+        List<SimplePlaceResponseDTO> nearbyPlaces = places.stream()
+                .map(nearbyPlace -> SimplePlaceResponseDTO.of(nearbyPlace, placeLikeRepository.countByPlace(nearbyPlace), coursePlaceRepository.countDistinctByPlace(nearbyPlace)))
+                .toList();
+
+        return DetailedPlaceResponseDTO.of(placeResponseDTO, simpleCourseResponseDTO, nearbyPlaces);
     }
 
     @Transactional
@@ -57,7 +73,7 @@ public class PlaceService {
 
     @Transactional(readOnly = true)
     public List<MarkerResponseDTO> getMarkerList(String xCoordinate, String yCoordinate, int limit) {
-        List<Place> places = placeRepository.findAllByDistanceAscWithLimit(xCoordinate, yCoordinate, limit);
+        List<Place> places = placeRepository.findByDistanceAscWithLimit(xCoordinate, yCoordinate, limit);
         return places.stream()
                 .map(place -> MarkerResponseDTO.of(place, eventRepository.existsByPlaceIdAndEndDateTimeBefore(place.getId(), LocalDateTime.now())))
                 .toList();

@@ -14,7 +14,10 @@ public interface PlaceRepository extends JpaRepository<Place, Long>, PlaceCustom
     List<Place> findAllByDistanceAsc(@Param("x") String x, @Param("y") String y);
 
     @Query(value = "SELECT * FROM place p ORDER BY ST_DISTANCE(POINT(p.x_coordinate, p.y_coordinate), POINT(:x, :y)) ASC LIMIT :limit", nativeQuery = true)
-    List<Place> findAllByDistanceAscWithLimit(@Param("x") String x, @Param("y") String y, @Param("limit") int limit);
+    List<Place> findByDistanceAscWithLimit(@Param("x") String x, @Param("y") String y, @Param("limit") int limit);
+
+    @Query(value = "SELECT * FROM place p WHERE p.place_id != :placeId ORDER BY ST_DISTANCE(POINT(p.x_coordinate, p.y_coordinate), POINT(:x, :y)) ASC LIMIT :limit", nativeQuery = true)
+    List<Place> findByDistanceAscWithLimitExceptMe(@Param("x") String x, @Param("y") String y, @Param("placeId") Long placeId, @Param("limit") int limit);
 
     List<Place> findByNameContaining(String keyword);
 

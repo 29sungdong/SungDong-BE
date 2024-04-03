@@ -8,8 +8,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import sungdong29.backend.domain.place.domain.Category;
+import sungdong29.backend.domain.place.dto.response.DetailedPlaceResponseDTO;
 import sungdong29.backend.domain.place.dto.response.MarkerResponseDTO;
-import sungdong29.backend.domain.place.dto.response.PlaceResponseDTO;
 import sungdong29.backend.domain.place.dto.response.SimplePlaceResponseDTO;
 import sungdong29.backend.domain.place.service.PlaceService;
 
@@ -26,11 +26,11 @@ public class PlaceController {
 
     @Operation(summary = "장소 하나 조회")
     @GetMapping("/{id}")
-    public ResponseEntity<PlaceResponseDTO> getPlaceById(
+    public ResponseEntity<DetailedPlaceResponseDTO> getPlaceById(
             @PathVariable Long id) {
         log.info("장소 하나 조회");
-        PlaceResponseDTO placeResponseDTO = placeService.getPlaceById(id);
-        return ResponseEntity.ok(placeResponseDTO);
+        DetailedPlaceResponseDTO detailedPlaceResponseDTO = placeService.getPlaceById(id);
+        return ResponseEntity.ok(detailedPlaceResponseDTO);
     }
 
     @Operation(summary = "이름 또는 카테고리로 장소 조회")
