@@ -5,14 +5,17 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import sungdong29.backend.domain.event.repository.EventRepository;
+import sungdong29.backend.domain.place.domain.Category;
 import sungdong29.backend.domain.place.domain.Place;
-import sungdong29.backend.domain.place.dto.response.MarkerListResponseDTO;
-import sungdong29.backend.domain.place.dto.response.PlaceListResponseDTO;
+import sungdong29.backend.domain.place.dto.response.MarkerResponseDTO;
 import sungdong29.backend.domain.place.dto.response.PlaceResponseDTO;
+import sungdong29.backend.domain.place.dto.response.SimplePlaceResponseDTO;
 import sungdong29.backend.domain.place.helper.PlaceHelper;
-import sungdong29.backend.domain.place.mapper.PlaceMapper;
+import sungdong29.backend.domain.place.repository.PlaceLikeRepository;
 import sungdong29.backend.domain.place.repository.PlaceRepository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Slf4j
@@ -21,30 +24,39 @@ import java.util.List;
 public class PlaceService {
 
     private final PlaceRepository placeRepository;
-    private final PlaceMapper placeMapper;
+    private final EventRepository eventRepository;
+    private final PlaceLikeRepository placeLikeRepository;
     private final PlaceHelper placeHelper;
-
-    @Transactional(readOnly = true)
-    public PlaceListResponseDTO getPlaceList(String xCoordinate, String yCoordinate) {
-        List<Place> places = placeRepository.findAllByDistanceAsc(xCoordinate, yCoordinate);
-        return placeMapper.toCardListDTO(places);
-    }
 
     @Transactional(readOnly = true)
     public PlaceResponseDTO getPlaceById(Long id) {
         Place place = placeHelper.getPlaceById(id);
-        return placeMapper.toPlaceDTO(place);
+        Long likeCount = placeLikeRepository.countByPlace(place);
+        return PlaceResponseDTO.of(place, likeCount);
+    }
+
+    @Transactional
+    public List<SimplePlaceResponseDTO> getPlaceByKeywordAndCategory(Category category, String keyword) {
+        List<Place> places;
+
+        if (category == null) {
+            places = placeRepository.findByFilter(null, keyword);
+        } else if (keyword == null) {
+            places = placeRepository.findByFilter(category, null);
+        } else {
+            places = placeRepository.findByFilter(category, keyword);
+        }
+
+        return places.stream()
+                .map(place -> SimplePlaceResponseDTO.of(place, placeLikeRepository.countByPlace(place)))
+                .toList();
     }
 
     @Transactional(readOnly = true)
-    public MarkerListResponseDTO getPlaceByKeyword(String keyword) {
-        List<Place> places = placeRepository.findByNameContaining(keyword);
-        return placeMapper.toMarkerListDTO(places);
-    }
-
-    @Transactional(readOnly = true)
-    public MarkerListResponseDTO getMarkerList(String xCoordinate, String yCoordinate, int limit) {
+    public List<MarkerResponseDTO> getMarkerList(String xCoordinate, String yCoordinate, int limit) {
         List<Place> places = placeRepository.findAllByDistanceAscWithLimit(xCoordinate, yCoordinate, limit);
-        return placeMapper.toMarkerListDTO(places);
+        return places.stream()
+                .map(place -> MarkerResponseDTO.of(place, eventRepository.existsByPlaceIdAndEndDateTimeBefore(place.getId(), LocalDateTime.now())))
+                .toList();
     }
 }

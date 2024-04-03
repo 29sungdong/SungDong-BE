@@ -1,13 +1,11 @@
-package sungdong29.backend.domain.place.vo;
+package sungdong29.backend.domain.place.dto.response;
 
 import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import sungdong29.backend.domain.place.domain.Place;
 
 @Getter
-@NoArgsConstructor
-public class MarkerVo {
+public class MarkerResponseDTO {
 
     private Long id;
     private String name;
@@ -19,7 +17,7 @@ public class MarkerVo {
     private Boolean hasEvent;
 
     @Builder
-    private MarkerVo(
+    private MarkerResponseDTO(
             Long id,
             String name,
             String image,
@@ -38,8 +36,8 @@ public class MarkerVo {
         this.hasEvent = hasEvent;
     }
 
-    public static MarkerVo of(Place place, Boolean hasEvent) {
-        return MarkerVo.builder()
+    public static MarkerResponseDTO of(Place place, Boolean hasEvent) {
+        return MarkerResponseDTO.builder()
                 .id(place.getId())
                 .name(place.getName())
                 .image(place.getImage())
