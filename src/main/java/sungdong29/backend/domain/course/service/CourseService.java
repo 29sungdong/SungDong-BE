@@ -6,11 +6,12 @@ import sungdong29.backend.domain.course.domain.Course;
 import sungdong29.backend.domain.course.domain.CourseLike;
 import sungdong29.backend.domain.course.domain.CoursePlace;
 import sungdong29.backend.domain.course.dto.request.CourseCreateRequestDTO;
-import sungdong29.backend.domain.course.dto.response.CourseIdResponseDTO;
+import sungdong29.backend.domain.course.dto.response.SimpleCourseResponseDTO;
 import sungdong29.backend.domain.course.exception.CourseNotFound;
 import sungdong29.backend.domain.course.repository.CourseLikeRepository;
 import sungdong29.backend.domain.course.repository.CoursePlaceRepository;
 import sungdong29.backend.domain.course.repository.CourseRepository;
+import sungdong29.backend.domain.course.domain.Category;
 import sungdong29.backend.domain.place.domain.Place;
 import sungdong29.backend.domain.place.exception.PlaceNotFound;
 import sungdong29.backend.domain.place.repository.PlaceRepository;
@@ -28,9 +29,50 @@ public class CourseService {
     private final CoursePlaceRepository coursePlaceRepository;
     private final CourseLikeRepository courseLikeRepository;
 
-    public CourseIdResponseDTO createCourse(UserDetails userDetails, CourseCreateRequestDTO courseCreateRequestDTO) {
+    // 내 코스 조회
+    public List<SimpleCourseResponseDTO> getMyCourse(UserDetails userDetails) {
         User user = userDetails.getUser();
 
+        List<Course> courseList = courseRepository.findAllByUser(user);
+
+        return courseList.stream()
+                .map(course -> SimpleCourseResponseDTO.of(course, courseLikeRepository.countByCourse(course)))
+                .toList();
+    }
+
+    // 카테고리 별 코스 조회
+    public List<SimpleCourseResponseDTO> getCourseByCategory(Category category) {
+        List<Course> courseList = courseRepository.findAllByCategory(category);
+
+        return courseList.stream()
+                .map(course -> SimpleCourseResponseDTO.of(course, courseLikeRepository.countByCourse(course)))
+                .toList();
+    }
+
+    // 코스 검색
+    public List<SimpleCourseResponseDTO> searchCourse(String keyword) {
+        List<Course> courseList = courseRepository.findAllByNameContaining(keyword);
+
+        return courseList.stream()
+                .map(course -> SimpleCourseResponseDTO.of(course, courseLikeRepository.countByCourse(course)))
+                .toList();
+    }
+
+    public List<SimpleCourseResponseDTO> searchCourseByPlace(Long placeId) {
+        Place place = placeRepository.findById(placeId)
+                .orElseThrow(() -> PlaceNotFound.EXCEPTION);
+        List<Course> courseList = coursePlaceRepository.findDistinctCourseByPlace(place);
+
+        return courseList.stream()
+                .map(course -> SimpleCourseResponseDTO.of(course, courseLikeRepository.countByCourse(course)))
+                .toList();
+    }
+
+
+    public SimpleCourseResponseDTO createCourse(UserDetails userDetails, CourseCreateRequestDTO courseCreateRequestDTO) {
+        User user = userDetails.getUser();
+
+        System.out.println("courseCreateRequestDTO = " + courseCreateRequestDTO.getCategoryList());
         // Course 객체 생성
         Course course = Course.of(user, courseCreateRequestDTO);
 
@@ -42,13 +84,14 @@ public class CourseService {
             CoursePlace coursePlace = CoursePlace.of(course, place, orderNum++);
             coursePlaceRepository.save(coursePlace);
         }
-        return CourseIdResponseDTO.from(course.getId());
+        return SimpleCourseResponseDTO.of(course, 0L);
     }
 
-    public CourseIdResponseDTO updateCourse(UserDetails userDetails, Long courseId, CourseCreateRequestDTO courseInfoRequestDTO) {
+    public SimpleCourseResponseDTO updateCourse(UserDetails userDetails, Long courseId, CourseCreateRequestDTO courseInfoRequestDTO) {
         User user = userDetails.getUser();
         Course course = courseRepository.findById(courseId)
                 .orElseThrow(() -> CourseNotFound.EXCEPTION);
+        Long likeCount = courseLikeRepository.countByCourse(course);
         List<CoursePlace> coursePlaces = coursePlaceRepository.findByCourse(course);
 
         for (int i = 0; i < courseInfoRequestDTO.getPlaceIds().size(); i++) {
@@ -56,16 +99,13 @@ public class CourseService {
             Place place = placeRepository.findById(placeId)
                     .orElseThrow(() -> PlaceNotFound.EXCEPTION);
 
-            // 코스에 장소가 최대 5가지일때는 이 방법이 괜찮겠지만 장소가 더 많아질 경우에는 이 방법이 적합하지 않을 것 같음
             if (place != coursePlaces.get(i).getPlace()) {
                 CoursePlace coursePlace = CoursePlace.of(course, place, i + 1);
                 coursePlaceRepository.save(coursePlace);
             }
-
         }
 
-        // 수정중
-        return CourseIdResponseDTO.from(course.getId());
+        return SimpleCourseResponseDTO.of(course, likeCount);
     }
 
     public void deleteCourse(UserDetails userDetails, Long courseId) {
@@ -83,7 +123,8 @@ public class CourseService {
         if (courseLikeRepository.existsByCourseAndUser(course, user)) {
             courseLikeRepository.deleteByCourseAndUser(course, user);
         } else {
-            CourseLike.of(course, user);
+            CourseLike courseLike = CourseLike.of(course, user);
+            courseLikeRepository.save(courseLike);
         }
     }
 }
