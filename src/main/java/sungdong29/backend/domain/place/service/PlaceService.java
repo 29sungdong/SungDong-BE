@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import sungdong29.backend.domain.course.repository.CoursePlaceRepository;
 import sungdong29.backend.domain.event.repository.EventRepository;
 import sungdong29.backend.domain.place.domain.Category;
 import sungdong29.backend.domain.place.domain.Place;
@@ -26,13 +27,15 @@ public class PlaceService {
     private final PlaceRepository placeRepository;
     private final EventRepository eventRepository;
     private final PlaceLikeRepository placeLikeRepository;
+    private final CoursePlaceRepository coursePlaceRepository;
     private final PlaceHelper placeHelper;
 
     @Transactional(readOnly = true)
     public PlaceResponseDTO getPlaceById(Long id) {
         Place place = placeHelper.getPlaceById(id);
         Long likeCount = placeLikeRepository.countByPlace(place);
-        return PlaceResponseDTO.of(place, likeCount);
+        Long courseCount = coursePlaceRepository.countDistinctByPlace(place);
+        return PlaceResponseDTO.of(place, likeCount, courseCount);
     }
 
     @Transactional
@@ -48,7 +51,7 @@ public class PlaceService {
         }
 
         return places.stream()
-                .map(place -> SimplePlaceResponseDTO.of(place, placeLikeRepository.countByPlace(place)))
+                .map(place -> SimplePlaceResponseDTO.of(place, placeLikeRepository.countByPlace(place), coursePlaceRepository.countDistinctByPlace(place)))
                 .toList();
     }
 
