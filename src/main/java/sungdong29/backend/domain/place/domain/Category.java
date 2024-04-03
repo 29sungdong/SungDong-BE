@@ -9,6 +9,9 @@ import lombok.RequiredArgsConstructor;
 public enum Category {
     CULTURE("문화"),
     GYM("체육"),
+    FOOD("음식"),
+    CAFE("카페"),
+    PUB("주점"),
     PARK("공원");
 
     private final String category;
