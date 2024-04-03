@@ -10,4 +10,6 @@ public interface CourseLikeRepository extends JpaRepository<CourseLike, Long> {
     boolean existsByCourseAndUser(Course course, User user);
 
     void deleteByCourseAndUser(Course course, User user);
+
+    Long countByCourse(Course course);
 }

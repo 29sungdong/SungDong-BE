@@ -53,7 +53,7 @@ public class PlaceRepositoryTest {
         int limit = 5;
 
         // when
-        List<Place> places = placeRepository.findAllByDistanceAscWithLimit(xCoordinate, yCoordinate, limit);
+        List<Place> places = placeRepository.findByDistanceAscWithLimit(xCoordinate, yCoordinate, limit);
 
         // then
         assertThat(places.size()).isEqualTo(5);
