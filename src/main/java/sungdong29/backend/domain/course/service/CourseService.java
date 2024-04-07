@@ -6,6 +6,7 @@ import sungdong29.backend.domain.course.domain.Course;
 import sungdong29.backend.domain.course.domain.CourseLike;
 import sungdong29.backend.domain.course.domain.CoursePlace;
 import sungdong29.backend.domain.course.dto.request.CourseCreateRequestDTO;
+import sungdong29.backend.domain.course.dto.response.CourseResponseDTO;
 import sungdong29.backend.domain.course.dto.response.SimpleCourseResponseDTO;
 import sungdong29.backend.domain.course.exception.CourseNotFound;
 import sungdong29.backend.domain.course.repository.CourseLikeRepository;
@@ -13,7 +14,9 @@ import sungdong29.backend.domain.course.repository.CoursePlaceRepository;
 import sungdong29.backend.domain.course.repository.CourseRepository;
 import sungdong29.backend.domain.course.domain.Category;
 import sungdong29.backend.domain.place.domain.Place;
+import sungdong29.backend.domain.place.dto.response.SimplePlaceResponseDTO;
 import sungdong29.backend.domain.place.exception.PlaceNotFound;
+import sungdong29.backend.domain.place.repository.PlaceLikeRepository;
 import sungdong29.backend.domain.place.repository.PlaceRepository;
 import sungdong29.backend.domain.user.domain.User;
 import sungdong29.backend.global.config.user.UserDetails;
@@ -28,6 +31,7 @@ public class CourseService {
     private final PlaceRepository placeRepository;
     private final CoursePlaceRepository coursePlaceRepository;
     private final CourseLikeRepository courseLikeRepository;
+    private final PlaceLikeRepository placeLikeRepository;
 
     // 내 코스 조회
     public List<SimpleCourseResponseDTO> getMyCourse(UserDetails userDetails) {
@@ -47,6 +51,20 @@ public class CourseService {
         return courseList.stream()
                 .map(course -> SimpleCourseResponseDTO.of(course, courseLikeRepository.countByCourse(course)))
                 .toList();
+    }
+
+    // 코스 하나 조회
+    public CourseResponseDTO getCourse(Long courseId) {
+        Course course = courseRepository.findById(courseId)
+                .orElseThrow(() -> CourseNotFound.EXCEPTION);
+
+        Long likeCount = courseLikeRepository.countByCourse(course);
+        List<SimplePlaceResponseDTO> placeList = coursePlaceRepository.findPlaceByCourse(course)
+                .stream()
+                .map(place -> SimplePlaceResponseDTO.of(place, placeLikeRepository.countByPlace(place), null))
+                .toList();
+
+        return CourseResponseDTO.of(course, likeCount, placeList);
     }
 
     // 코스 검색

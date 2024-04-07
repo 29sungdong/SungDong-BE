@@ -13,4 +13,7 @@ public interface CoursePlaceRepository extends JpaRepository<CoursePlace, Long> 
     Long countDistinctByPlace(Place place);
     @Query("SELECT DISTINCT cp.course FROM CoursePlace cp WHERE cp.place = :place")
     List<Course> findDistinctCourseByPlace(Place place);
+
+    @Query("SELECT DISTINCT cp.place FROM CoursePlace cp WHERE cp.course = :course")
+    List<Place> findPlaceByCourse(Course course);
 }
