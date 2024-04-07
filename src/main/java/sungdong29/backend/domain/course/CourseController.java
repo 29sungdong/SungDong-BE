@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import sungdong29.backend.domain.course.dto.request.CourseCreateRequestDTO;
+import sungdong29.backend.domain.course.dto.response.CourseResponseDTO;
 import sungdong29.backend.domain.course.dto.response.SimpleCourseResponseDTO;
 import sungdong29.backend.domain.course.service.CourseService;
 import sungdong29.backend.domain.course.domain.Category;
@@ -35,7 +36,6 @@ public class CourseController {
         return ResponseEntity.ok(simpleCourseResponseDTO);
     }
 
-    //카테고리 별 코스 조회
     @Operation(summary = "카테고리 별 코스 조회")
     @GetMapping("/category/{category}")
     public ResponseEntity<List<SimpleCourseResponseDTO>> getCourseByCategory(
@@ -44,6 +44,16 @@ public class CourseController {
         log.info("카테고리 별 코스 조회");
         List<SimpleCourseResponseDTO> simpleCourseResponseDTO = courseService.getCourseByCategory(category);
         return ResponseEntity.ok(simpleCourseResponseDTO);
+    }
+
+    @Operation(summary = "코스 하나 조회")
+    @GetMapping("/{courseId}")
+    public ResponseEntity<CourseResponseDTO> getCourse(
+            @PathVariable Long courseId
+    ) {
+        log.info("코스 하나 조회");
+        CourseResponseDTO courseResponseDTO = courseService.getCourse(courseId);
+        return ResponseEntity.ok(courseResponseDTO);
     }
 
     //코스 검색
