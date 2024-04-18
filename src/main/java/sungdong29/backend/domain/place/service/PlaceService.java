@@ -17,6 +17,7 @@ import sungdong29.backend.domain.place.dto.response.DetailedPlaceResponseDTO;
 import sungdong29.backend.domain.place.dto.response.MarkerResponseDTO;
 import sungdong29.backend.domain.place.dto.response.PlaceResponseDTO;
 import sungdong29.backend.domain.place.dto.response.SimplePlaceResponseDTO;
+import sungdong29.backend.domain.place.exception.PlaceNotFound;
 import sungdong29.backend.domain.place.helper.PlaceHelper;
 import sungdong29.backend.domain.place.repository.PlaceLikeRepository;
 import sungdong29.backend.domain.place.repository.PlaceRepository;
@@ -70,7 +71,9 @@ public class PlaceService {
         } else {
             places = placeRepository.findByFilter(category, keyword);
         }
-
+        if (places.isEmpty()) {
+            throw PlaceNotFound.EXCEPTION;
+        }
         return places.stream()
                 .map(place -> SimplePlaceResponseDTO.of(place, placeLikeRepository.countByPlace(place), coursePlaceRepository.countDistinctByPlace(place)))
                 .toList();

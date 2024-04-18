@@ -50,7 +50,9 @@ public class CourseService {
     // 카테고리 별 코스 조회
     public List<SimpleCourseResponseDTO> getCourseByCategory(Category category) {
         List<Course> courseList = courseRepository.findAllByCategory(category);
-
+        if (courseList.isEmpty()) {
+            throw CourseNotFound.EXCEPTION;
+        }
         return courseList.stream()
                 .map(course -> SimpleCourseResponseDTO.of(course, courseHelper.getCoursePreview(coursePlaceRepository.findPlaceByCourse(course)), courseLikeRepository.countByCourse(course)))
                 .toList();
@@ -74,7 +76,9 @@ public class CourseService {
     // 코스 검색
     public List<SimpleCourseResponseDTO> searchCourse(String keyword) {
         List<Course> courseList = courseRepository.findAllByNameContaining(keyword);
-
+        if (courseList.isEmpty()) {
+            throw CourseNotFound.EXCEPTION;
+        }
         return courseList.stream()
                 .map(course -> SimpleCourseResponseDTO.of(course, courseHelper.getCoursePreview(coursePlaceRepository.findPlaceByCourse(course)), courseLikeRepository.countByCourse(course)))
                 .toList();
@@ -84,7 +88,9 @@ public class CourseService {
         Place place = placeRepository.findById(placeId)
                 .orElseThrow(() -> PlaceNotFound.EXCEPTION);
         List<Course> courseList = coursePlaceRepository.findDistinctCourseByPlace(place);
-
+        if (courseList.isEmpty()) {
+            throw CourseNotFound.EXCEPTION;
+        }
         return courseList.stream()
                 .map(course -> SimpleCourseResponseDTO.of(course, courseHelper.getCoursePreview(coursePlaceRepository.findPlaceByCourse(course)), courseLikeRepository.countByCourse(course)))
                 .toList();
