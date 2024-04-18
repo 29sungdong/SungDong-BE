@@ -49,10 +49,10 @@ public class Course {
     private Category category3;
 
     @Column(columnDefinition = "TINYINT(1)")
-    private Boolean isSungDongSelected;
+    private Boolean byService;
 
     @Column(columnDefinition = "TINYINT(1)")
-    private Boolean isSungDongRecommended;
+    private Boolean byResidents;
 
     @Builder
     private Course(
@@ -64,8 +64,8 @@ public class Course {
             Category category1,
             Category category2,
             Category category3,
-            Boolean isSungDongSelected,
-            Boolean isSungDongRecommended) {
+            Boolean byService,
+            Boolean byResidents) {
         this.user = user;
         this.date = date;
         this.name = name;
@@ -74,8 +74,8 @@ public class Course {
         this.category1 = category1;
         this.category2 = category2;
         this.category3 = category3;
-        this.isSungDongSelected = isSungDongSelected;
-        this.isSungDongRecommended = isSungDongRecommended;
+        this.byService = byService;
+        this.byResidents = byResidents;
     }
 
     public static Course of(User user, CourseCreateRequestDTO courseCreateRequestDTO) {
@@ -88,8 +88,8 @@ public class Course {
                 .category1(courseCreateRequestDTO.getCategoryList().get(0))
                 .category2(courseCreateRequestDTO.getCategoryList().get(1))
                 .category3(courseCreateRequestDTO.getCategoryList().get(2))
-                .isSungDongSelected(courseCreateRequestDTO.getIsSungDongSelected())
-                .isSungDongRecommended(courseCreateRequestDTO.getIsSungDongRecommended())
+                .byService(courseCreateRequestDTO.getByService())
+                .byResidents(courseCreateRequestDTO.getByResidents())
                 .build();
     }
 }

@@ -39,7 +39,7 @@ public class CourseController {
     @Operation(summary = "카테고리 별 코스 조회")
     @GetMapping("/category/{category}")
     public ResponseEntity<List<SimpleCourseResponseDTO>> getCourseByCategory(
-            @RequestParam("category") Category category
+            @PathVariable("category") Category category
     ) {
         log.info("카테고리 별 코스 조회");
         List<SimpleCourseResponseDTO> simpleCourseResponseDTO = courseService.getCourseByCategory(category);

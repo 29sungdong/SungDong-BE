@@ -40,7 +40,7 @@ public class CourseService {
         List<Course> courseList = courseRepository.findAllByUser(user);
 
         return courseList.stream()
-                .map(course -> SimpleCourseResponseDTO.of(course, courseLikeRepository.countByCourse(course)))
+                .map(course -> SimpleCourseResponseDTO.of(course, getCoursePreview(coursePlaceRepository.findPlaceByCourse(course)), courseLikeRepository.countByCourse(course)))
                 .toList();
     }
 
@@ -49,7 +49,7 @@ public class CourseService {
         List<Course> courseList = courseRepository.findAllByCategory(category);
 
         return courseList.stream()
-                .map(course -> SimpleCourseResponseDTO.of(course, courseLikeRepository.countByCourse(course)))
+                .map(course -> SimpleCourseResponseDTO.of(course, getCoursePreview(coursePlaceRepository.findPlaceByCourse(course)), courseLikeRepository.countByCourse(course)))
                 .toList();
     }
 
@@ -59,12 +59,13 @@ public class CourseService {
                 .orElseThrow(() -> CourseNotFound.EXCEPTION);
 
         Long likeCount = courseLikeRepository.countByCourse(course);
-        List<SimplePlaceResponseDTO> placeList = coursePlaceRepository.findPlaceByCourse(course)
+        List<Place> placeList = coursePlaceRepository.findPlaceByCourse(course);
+        List<SimplePlaceResponseDTO> placeListDTO = placeList
                 .stream()
                 .map(place -> SimplePlaceResponseDTO.of(place, placeLikeRepository.countByPlace(place), null))
                 .toList();
 
-        return CourseResponseDTO.of(course, likeCount, placeList);
+        return CourseResponseDTO.of(course, getCoursePreview(placeList), likeCount, placeListDTO);
     }
 
     // 코스 검색
@@ -72,7 +73,7 @@ public class CourseService {
         List<Course> courseList = courseRepository.findAllByNameContaining(keyword);
 
         return courseList.stream()
-                .map(course -> SimpleCourseResponseDTO.of(course, courseLikeRepository.countByCourse(course)))
+                .map(course -> SimpleCourseResponseDTO.of(course, getCoursePreview(coursePlaceRepository.findPlaceByCourse(course)), courseLikeRepository.countByCourse(course)))
                 .toList();
     }
 
@@ -82,7 +83,7 @@ public class CourseService {
         List<Course> courseList = coursePlaceRepository.findDistinctCourseByPlace(place);
 
         return courseList.stream()
-                .map(course -> SimpleCourseResponseDTO.of(course, courseLikeRepository.countByCourse(course)))
+                .map(course -> SimpleCourseResponseDTO.of(course, getCoursePreview(coursePlaceRepository.findPlaceByCourse(course)), courseLikeRepository.countByCourse(course)))
                 .toList();
     }
 
@@ -102,7 +103,9 @@ public class CourseService {
             CoursePlace coursePlace = CoursePlace.of(course, place, orderNum++);
             coursePlaceRepository.save(coursePlace);
         }
-        return SimpleCourseResponseDTO.of(course, 0L);
+        String preview = getCoursePreview(coursePlaceRepository.findPlaceByCourse(course));
+
+        return SimpleCourseResponseDTO.of(course, preview, 0L);
     }
 
     public SimpleCourseResponseDTO updateCourse(UserDetails userDetails, Long courseId, CourseCreateRequestDTO courseInfoRequestDTO) {
@@ -123,7 +126,9 @@ public class CourseService {
             }
         }
 
-        return SimpleCourseResponseDTO.of(course, likeCount);
+        String preview = getCoursePreview(coursePlaceRepository.findPlaceByCourse(course));
+
+        return SimpleCourseResponseDTO.of(course, preview, likeCount);
     }
 
     public void deleteCourse(UserDetails userDetails, Long courseId) {
@@ -144,5 +149,16 @@ public class CourseService {
             CourseLike courseLike = CourseLike.of(course, user);
             courseLikeRepository.save(courseLike);
         }
+    }
+
+    private String getCoursePreview(List<Place> placeList) {
+        StringBuilder previewBuilder = new StringBuilder();
+        for (Place place : placeList) {
+            if (previewBuilder.length() > 0) {
+                previewBuilder.append(" - ");
+            }
+            previewBuilder.append(place.getName());
+        }
+        return previewBuilder.toString();
     }
 }
