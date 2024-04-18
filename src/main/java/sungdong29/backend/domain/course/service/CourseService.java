@@ -9,6 +9,7 @@ import sungdong29.backend.domain.course.dto.request.CourseCreateRequestDTO;
 import sungdong29.backend.domain.course.dto.response.CourseResponseDTO;
 import sungdong29.backend.domain.course.dto.response.SimpleCourseResponseDTO;
 import sungdong29.backend.domain.course.exception.CourseNotFound;
+import sungdong29.backend.domain.course.helper.CourseHelper;
 import sungdong29.backend.domain.course.repository.CourseLikeRepository;
 import sungdong29.backend.domain.course.repository.CoursePlaceRepository;
 import sungdong29.backend.domain.course.repository.CourseRepository;
@@ -33,6 +34,8 @@ public class CourseService {
     private final CourseLikeRepository courseLikeRepository;
     private final PlaceLikeRepository placeLikeRepository;
 
+    private final CourseHelper courseHelper;
+    
     // 내 코스 조회
     public List<SimpleCourseResponseDTO> getMyCourse(UserDetails userDetails) {
         User user = userDetails.getUser();
@@ -40,7 +43,7 @@ public class CourseService {
         List<Course> courseList = courseRepository.findAllByUser(user);
 
         return courseList.stream()
-                .map(course -> SimpleCourseResponseDTO.of(course, courseLikeRepository.countByCourse(course)))
+                .map(course -> SimpleCourseResponseDTO.of(course, courseHelper.getCoursePreview(coursePlaceRepository.findPlaceByCourse(course)), courseLikeRepository.countByCourse(course)))
                 .toList();
     }
 
@@ -49,7 +52,7 @@ public class CourseService {
         List<Course> courseList = courseRepository.findAllByCategory(category);
 
         return courseList.stream()
-                .map(course -> SimpleCourseResponseDTO.of(course, courseLikeRepository.countByCourse(course)))
+                .map(course -> SimpleCourseResponseDTO.of(course, courseHelper.getCoursePreview(coursePlaceRepository.findPlaceByCourse(course)), courseLikeRepository.countByCourse(course)))
                 .toList();
     }
 
@@ -59,12 +62,13 @@ public class CourseService {
                 .orElseThrow(() -> CourseNotFound.EXCEPTION);
 
         Long likeCount = courseLikeRepository.countByCourse(course);
-        List<SimplePlaceResponseDTO> placeList = coursePlaceRepository.findPlaceByCourse(course)
+        List<Place> placeList = coursePlaceRepository.findPlaceByCourse(course);
+        List<SimplePlaceResponseDTO> placeListDTO = placeList
                 .stream()
                 .map(place -> SimplePlaceResponseDTO.of(place, placeLikeRepository.countByPlace(place), null))
                 .toList();
 
-        return CourseResponseDTO.of(course, likeCount, placeList);
+        return CourseResponseDTO.of(course, courseHelper.getCoursePreview(placeList), likeCount, placeListDTO);
     }
 
     // 코스 검색
@@ -72,7 +76,7 @@ public class CourseService {
         List<Course> courseList = courseRepository.findAllByNameContaining(keyword);
 
         return courseList.stream()
-                .map(course -> SimpleCourseResponseDTO.of(course, courseLikeRepository.countByCourse(course)))
+                .map(course -> SimpleCourseResponseDTO.of(course, courseHelper.getCoursePreview(coursePlaceRepository.findPlaceByCourse(course)), courseLikeRepository.countByCourse(course)))
                 .toList();
     }
 
@@ -82,7 +86,7 @@ public class CourseService {
         List<Course> courseList = coursePlaceRepository.findDistinctCourseByPlace(place);
 
         return courseList.stream()
-                .map(course -> SimpleCourseResponseDTO.of(course, courseLikeRepository.countByCourse(course)))
+                .map(course -> SimpleCourseResponseDTO.of(course, courseHelper.getCoursePreview(coursePlaceRepository.findPlaceByCourse(course)), courseLikeRepository.countByCourse(course)))
                 .toList();
     }
 
@@ -102,7 +106,9 @@ public class CourseService {
             CoursePlace coursePlace = CoursePlace.of(course, place, orderNum++);
             coursePlaceRepository.save(coursePlace);
         }
-        return SimpleCourseResponseDTO.of(course, 0L);
+        String preview = courseHelper.getCoursePreview(coursePlaceRepository.findPlaceByCourse(course));
+
+        return SimpleCourseResponseDTO.of(course, preview, 0L);
     }
 
     public SimpleCourseResponseDTO updateCourse(UserDetails userDetails, Long courseId, CourseCreateRequestDTO courseInfoRequestDTO) {
@@ -123,7 +129,9 @@ public class CourseService {
             }
         }
 
-        return SimpleCourseResponseDTO.of(course, likeCount);
+        String preview = courseHelper.getCoursePreview(coursePlaceRepository.findPlaceByCourse(course));
+
+        return SimpleCourseResponseDTO.of(course, preview, likeCount);
     }
 
     public void deleteCourse(UserDetails userDetails, Long courseId) {
