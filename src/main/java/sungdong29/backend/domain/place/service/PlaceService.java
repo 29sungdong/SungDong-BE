@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import sungdong29.backend.domain.course.domain.Course;
 import sungdong29.backend.domain.course.dto.response.SimpleCourseResponseDTO;
+import sungdong29.backend.domain.course.helper.CourseHelper;
 import sungdong29.backend.domain.course.repository.CourseLikeRepository;
 import sungdong29.backend.domain.course.repository.CoursePlaceRepository;
 import sungdong29.backend.domain.event.repository.EventRepository;
@@ -16,6 +17,7 @@ import sungdong29.backend.domain.place.dto.response.DetailedPlaceResponseDTO;
 import sungdong29.backend.domain.place.dto.response.MarkerResponseDTO;
 import sungdong29.backend.domain.place.dto.response.PlaceResponseDTO;
 import sungdong29.backend.domain.place.dto.response.SimplePlaceResponseDTO;
+import sungdong29.backend.domain.place.exception.PlaceNotFound;
 import sungdong29.backend.domain.place.helper.PlaceHelper;
 import sungdong29.backend.domain.place.repository.PlaceLikeRepository;
 import sungdong29.backend.domain.place.repository.PlaceRepository;
@@ -34,6 +36,7 @@ public class PlaceService {
     private final CoursePlaceRepository coursePlaceRepository;
     private final CourseLikeRepository courseLikeRepository;
     private final PlaceHelper placeHelper;
+    private final CourseHelper courseHelper;
 
     @Transactional(readOnly = true)
     public DetailedPlaceResponseDTO getPlaceById(Long id) {
@@ -43,10 +46,13 @@ public class PlaceService {
 
         PlaceResponseDTO placeResponseDTO = PlaceResponseDTO.of(place, likeCount, courseCount);
         List<Course> courses = coursePlaceRepository.findDistinctCourseByPlace(place);
-        List<SimpleCourseResponseDTO> simpleCourseResponseDTO = courses.stream()
-                .map(course -> SimpleCourseResponseDTO.of(course, courseLikeRepository.countByCourse(course)))
-                .toList();
         List<Place> places = placeRepository.findByDistanceAscWithLimitExceptMe(place.getXCoordinate(), place.getYCoordinate(), place.getId(), 3);
+        List<SimpleCourseResponseDTO> simpleCourseResponseDTO = courses.stream()
+                .map(course -> SimpleCourseResponseDTO.of(
+                        course,
+                        courseHelper.getCoursePreview(coursePlaceRepository.findPlaceByCourse(course)),
+                        courseLikeRepository.countByCourse(course)))
+                .toList();
         List<SimplePlaceResponseDTO> nearbyPlaces = places.stream()
                 .map(nearbyPlace -> SimplePlaceResponseDTO.of(nearbyPlace, placeLikeRepository.countByPlace(nearbyPlace), coursePlaceRepository.countDistinctByPlace(nearbyPlace)))
                 .toList();
@@ -65,7 +71,9 @@ public class PlaceService {
         } else {
             places = placeRepository.findByFilter(category, keyword);
         }
-
+        if (places.isEmpty()) {
+            throw PlaceNotFound.EXCEPTION;
+        }
         return places.stream()
                 .map(place -> SimplePlaceResponseDTO.of(place, placeLikeRepository.countByPlace(place), coursePlaceRepository.countDistinctByPlace(place)))
                 .toList();

@@ -22,19 +22,19 @@ public class CourseCreateRequestDTO {
 
     private List<Long> placeIds;
 
-    private Boolean isSungDongSelected;
+    private Boolean byService;
 
-    private Boolean isSungDongRecommended;
+    private Boolean byResidents;
 
     @Builder
-    private CourseCreateRequestDTO(String title, LocalDate date, String description, String image, List<Category> categoryList, List<Long> placeIds, Boolean isSungDongSelected, Boolean isSungDongRecommended) {
+    private CourseCreateRequestDTO(String title, LocalDate date, String description, String image, List<Category> categoryList, List<Long> placeIds, Boolean byService, Boolean byResidents) {
         this.title = title;
         this.date = date;
         this.description = description;
         this.image = image;
         this.categoryList = categoryList;
         this.placeIds = placeIds;
-        this.isSungDongSelected = isSungDongSelected;
-        this.isSungDongRecommended = isSungDongRecommended;
+        this.byService = byService;
+        this.byResidents = byResidents;
     }
 }
