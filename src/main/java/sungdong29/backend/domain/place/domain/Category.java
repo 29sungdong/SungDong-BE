@@ -7,19 +7,18 @@ import lombok.RequiredArgsConstructor;
 @Getter
 @RequiredArgsConstructor
 public enum Category {
-    FOOD("음식"),
     CAFE("카페"),
-    PUB("주점"),
-    PARK("공원"),
+    RESTAURANT("음식점"),
     FACILITY("시설"),
+    PARK("공원"),
     CULTURE("복합문화공간"),
-    KIDS("키즈카페"),
-    UNIQUE_EXPERIENCE("이색체험"),
+    KIDS_CAFE("키즈카페"),
+    EXPERIENCE("이색체험"),
     EDUCATION("교육관"),
     PARKING_LOT("주차장"),
-    PARKABLE("주차가능"),
-    WITH_PET("반려견 동반"),
-    ETC("기타");
+    WITH_PARKING("주차가능"),
+    WITH_PET("반려견동반"),
+    WITH_EVENT("행사중");
 
     private final String category;
 }
