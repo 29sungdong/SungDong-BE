@@ -24,10 +24,8 @@ public class CourseCreateRequestDTO {
 
     private Boolean byService;
 
-    private Boolean byResidents;
-
     @Builder
-    private CourseCreateRequestDTO(String title, LocalDate date, String description, String image, List<Category> categoryList, List<Long> placeIds, Boolean byService, Boolean byResidents) {
+    private CourseCreateRequestDTO(String title, LocalDate date, String description, String image, List<Category> categoryList, List<Long> placeIds, Boolean byService) {
         this.title = title;
         this.date = date;
         this.description = description;
@@ -35,6 +33,5 @@ public class CourseCreateRequestDTO {
         this.categoryList = categoryList;
         this.placeIds = placeIds;
         this.byService = byService;
-        this.byResidents = byResidents;
     }
 }

@@ -101,6 +101,7 @@ public class CourseService {
         User user = userDetails.getUser();
 
         System.out.println("courseCreateRequestDTO = " + courseCreateRequestDTO.getCategoryList());
+
         // Course 객체 생성
         Course course = Course.of(user, courseCreateRequestDTO);
 

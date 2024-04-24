@@ -10,6 +10,7 @@ import sungdong29.backend.domain.course.dto.request.CourseCreateRequestDTO;
 import sungdong29.backend.domain.user.domain.User;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Getter
@@ -51,8 +52,6 @@ public class Course {
     @Column(columnDefinition = "TINYINT(1)")
     private Boolean byService;
 
-    @Column(columnDefinition = "TINYINT(1)")
-    private Boolean byResidents;
 
     @Builder
     private Course(
@@ -64,8 +63,7 @@ public class Course {
             Category category1,
             Category category2,
             Category category3,
-            Boolean byService,
-            Boolean byResidents) {
+            Boolean byService) {
         this.user = user;
         this.date = date;
         this.name = name;
@@ -75,21 +73,23 @@ public class Course {
         this.category2 = category2;
         this.category3 = category3;
         this.byService = byService;
-        this.byResidents = byResidents;
     }
 
     public static Course of(User user, CourseCreateRequestDTO courseCreateRequestDTO) {
+        List<Category> categoryList = courseCreateRequestDTO.getCategoryList();
+        for (int i = categoryList.size(); i < 3; i++) {
+            categoryList.add(null);
+        }
         return Course.builder()
                 .user(user)
                 .date(courseCreateRequestDTO.getDate())
                 .name(courseCreateRequestDTO.getTitle())
                 .description(courseCreateRequestDTO.getDescription())
                 .image(courseCreateRequestDTO.getImage())
-                .category1(courseCreateRequestDTO.getCategoryList().get(0))
-                .category2(courseCreateRequestDTO.getCategoryList().get(1))
-                .category3(courseCreateRequestDTO.getCategoryList().get(2))
+                .category1(categoryList.get(0))
+                .category2(categoryList.get(1))
+                .category3(categoryList.get(2))
                 .byService(courseCreateRequestDTO.getByService())
-                .byResidents(courseCreateRequestDTO.getByResidents())
                 .build();
     }
 }

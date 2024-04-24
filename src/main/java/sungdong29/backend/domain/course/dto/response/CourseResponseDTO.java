@@ -31,12 +31,11 @@ public class CourseResponseDTO {
 
     private Boolean byService;
 
-    private Boolean byResidents;
 
     private List<SimplePlaceResponseDTO> placeList;
 
     @Builder
-    private CourseResponseDTO(Long id, String name, String preview, String description, String image, Long likeCount, Category category1, Category category2, Category category3, Boolean byService, Boolean byResidents, List<SimplePlaceResponseDTO> placeList) {
+    private CourseResponseDTO(Long id, String name, String preview, String description, String image, Long likeCount, Category category1, Category category2, Category category3, Boolean byService, List<SimplePlaceResponseDTO> placeList) {
         this.id = id;
         this.name = name;
         this.preview = preview;
@@ -47,7 +46,6 @@ public class CourseResponseDTO {
         this.category2 = category2;
         this.category3 = category3;
         this.byService = byService;
-        this.byResidents = byResidents;
         this.placeList = placeList;
     }
 
@@ -63,7 +61,6 @@ public class CourseResponseDTO {
                 .category2(course.getCategory2())
                 .category3(course.getCategory3())
                 .byService(course.getByService())
-                .byResidents(course.getByResidents())
                 .placeList(placeList)
                 .build();
     }
