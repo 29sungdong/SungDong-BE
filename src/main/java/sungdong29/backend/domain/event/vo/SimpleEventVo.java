@@ -17,15 +17,18 @@ public class SimpleEventVo {
     private String name;
     private String placeImage;
     @JsonFormat(pattern = "yyyy/MM/dd HH:mm")
+    private LocalDateTime startDate;
+    @JsonFormat(pattern = "yyyy/MM/dd HH:mm")
     private LocalDateTime endDate;
     private String url;
 
     @Builder
-    private SimpleEventVo(Long placeId, String placeName, String placeImage, String name, LocalDateTime endDate, String url) {
+    private SimpleEventVo(Long placeId, String placeName, String placeImage, String name, LocalDateTime startDate, LocalDateTime endDate, String url) {
         this.placeId = placeId;
         this.placeName = placeName;
         this.placeImage = placeImage;
         this.name = name;
+        this.startDate = startDate;
         this.endDate = endDate;
         this.url = url;
     }
@@ -36,6 +39,7 @@ public class SimpleEventVo {
                 .placeName(event.getPlace().getName())
                 .placeImage(event.getPlace().getImage())
                 .name(event.getName())
+                .startDate(event.getStartDateTime())
                 .endDate(event.getEndDateTime())
                 .url(event.getUrl())
                 .build();
