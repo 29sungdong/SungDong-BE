@@ -18,6 +18,7 @@ public enum Category {
     WITH_EVENT("행사중"),
     LIBRARY("도서관"),
     MARKET("시장"),
+    PARKING("주차장"),
     STREET("거리");
 
     private final String category;
