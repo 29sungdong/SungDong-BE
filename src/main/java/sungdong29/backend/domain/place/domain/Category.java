@@ -15,9 +15,6 @@ public enum Category {
     KIDS_CAFE("키즈카페"),
     EXPERIENCE("이색체험"),
     EDUCATION("교육관"),
-    PARKING_LOT("주차장"),
-    WITH_PARKING("주차가능"),
-    WITH_PET("반려견동반"),
     WITH_EVENT("행사중");
 
     private final String category;
