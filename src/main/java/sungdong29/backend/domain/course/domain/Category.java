@@ -8,16 +8,13 @@ import lombok.RequiredArgsConstructor;
 public enum Category {
 
     WITH_CHILDREN("아이와 함께"),
-    WITH_PET("반려견과 함께"),
-    FOR_ME("나만 알고 싶은"),
     FOR_WALK("산책하기 좋은"),
     FOR_DATE("데이트하기 좋은"),
     PICNIC("피크닉"),
-    QUIET("조용한"),
-    PARKING("주차가능한"),
-    SEOUL_FOREST("서울숲"),
-    BY_SERVICE("성동산책이 직접 선별한"),
-    BY_RESIDENTS("구민이 추천하는");
+    FOR_ME("나홀로 보내는"),
+    BY_SERVICE("문화해설 투어"),
+    BY_RESIDENTS("성동구민 픽"),
+    BAKERY("베이커리 탐방");
 
     private final String category;
 }
