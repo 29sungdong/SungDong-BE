@@ -39,14 +39,17 @@ public class Course {
     private String image;
 
     @Column
+    @Enumerated(EnumType.STRING)
     private Category category1;
 
     @Column
     @Nullable
+    @Enumerated(EnumType.STRING)
     private Category category2;
 
     @Column
     @Nullable
+    @Enumerated(EnumType.STRING)
     private Category category3;
 
     @Column(columnDefinition = "TINYINT(1)")
