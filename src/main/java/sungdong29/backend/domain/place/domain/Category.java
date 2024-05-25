@@ -12,13 +12,13 @@ public enum Category {
     FACILITY("체육시설"),
     NATURE("공원/자연"),
     CULTURE("복합문화공간"),
-    KIDS_CAFE("키즈카페"),
     EXPERIENCE("이색체험"),
     EDUCATION("교육관"),
     WITH_EVENT("행사중"),
     LIBRARY("도서관"),
     MARKET("시장"),
     PARKING("주차장"),
+    HISTORY("문화유적"),
     STREET("거리");
 
     private final String category;
