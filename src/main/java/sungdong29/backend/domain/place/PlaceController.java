@@ -80,12 +80,12 @@ public class PlaceController {
 
     //장소 삭제
     @Operation(summary = "장소 삭제")
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/{name}")
     public ResponseEntity<Long> deletePlace(
-            @PathVariable Long id
+            @PathVariable String name
     ) {
         log.info("장소 삭제");
-        placeService.deletePlace(id);
+        placeService.deletePlace(name);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 }

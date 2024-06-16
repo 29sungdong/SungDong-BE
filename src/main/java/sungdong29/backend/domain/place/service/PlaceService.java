@@ -129,8 +129,8 @@ public class PlaceService {
 
     //장소 삭제
     @Transactional
-    public void deletePlace(Long id) {
-        Place place = placeHelper.getPlaceById(id);
+    public void deletePlace(String name) {
+        Place place = placeHelper.getPlaceByName(name);
         placeRepository.delete(place);
     }
 }
