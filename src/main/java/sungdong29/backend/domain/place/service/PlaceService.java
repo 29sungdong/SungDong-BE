@@ -94,20 +94,20 @@ public class PlaceService {
     public Long createPlace(PlaceCreateRequestDTO placeCreateRequestDTO) {
         String image;
         String baseUrl = "https://29sungdong.s3.ap-northeast-2.amazonaws.com/";
-        switch (placeCreateRequestDTO.getCategory().toString()) {
-            case "CAFE" -> image = baseUrl + "cafe.jpeg";
-            case "RESTAURANT" -> image = baseUrl + "restaurant.jpg";
-            case "FACILITY" -> image = baseUrl + "facility.png";
-            case "NATURE" -> image = baseUrl + "park.jpeg";
-            case "CULTURE" -> image = baseUrl + "culture.jpeg";
-            case "EXPERIENCE" -> image = baseUrl + "experience.png";
-            case "EDUCATION" -> image = baseUrl + "culture.jpeg";
-            case "WITH_EVENT" -> image = baseUrl + "with_event.png";
-            case "LIBRARY" -> image = baseUrl + "library.jpeg";
-            case "MARKET" -> image = baseUrl + "market.jpeg";
-            case "PARKING" -> image = baseUrl + "parking.jpeg";
-            case "HISTORY" -> image = baseUrl + "history.jpg";
-            case "STREET" -> image = baseUrl + "street.jpeg";
+        switch (placeCreateRequestDTO.getCategory()) {
+            case CAFE -> image = baseUrl + "cafe.jpeg";
+            case RESTAURANT -> image = baseUrl + "restaurant.jpg";
+            case FACILITY -> image = baseUrl + "facility.png";
+            case NATURE -> image = baseUrl + "park.jpeg";
+            case CULTURE -> image = baseUrl + "culture.jpeg";
+            case EXPERIENCE -> image = baseUrl + "experience.png";
+            case EDUCATION -> image = baseUrl + "culture.jpeg";
+            case WITH_EVENT -> image = baseUrl + "with_event.png";
+            case LIBRARY -> image = baseUrl + "library.jpeg";
+            case MARKET -> image = baseUrl + "market.jpeg";
+            case PARKING -> image = baseUrl + "parking.jpeg";
+            case HISTORY -> image = baseUrl + "history.jpg";
+            case STREET -> image = baseUrl + "street.jpeg";
             default -> image = baseUrl + "default.png";
         }
 
