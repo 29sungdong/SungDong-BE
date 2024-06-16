@@ -13,6 +13,8 @@ import sungdong29.backend.domain.course.repository.CoursePlaceRepository;
 import sungdong29.backend.domain.event.repository.EventRepository;
 import sungdong29.backend.domain.place.domain.Category;
 import sungdong29.backend.domain.place.domain.Place;
+import sungdong29.backend.domain.place.dto.request.PlaceCreateRequestDTO;
+import sungdong29.backend.domain.place.dto.request.PlaceUpdateRequestDTO;
 import sungdong29.backend.domain.place.dto.response.DetailedPlaceResponseDTO;
 import sungdong29.backend.domain.place.dto.response.MarkerResponseDTO;
 import sungdong29.backend.domain.place.dto.response.PlaceResponseDTO;
@@ -85,5 +87,50 @@ public class PlaceService {
         return places.stream()
                 .map(place -> MarkerResponseDTO.of(place, eventRepository.existsByPlaceIdAndEndDateTimeBefore(place.getId(), LocalDateTime.now())))
                 .toList();
+    }
+
+    //장소 생성
+    @Transactional
+    public Long createPlace(PlaceCreateRequestDTO placeCreateRequestDTO) {
+        String image;
+        String baseUrl = "https://29sungdong.s3.ap-northeast-2.amazonaws.com/";
+        switch (placeCreateRequestDTO.getCategory().toString()) {
+            case "CAFE" -> image = baseUrl + "cafe.jpeg";
+            case "RESTAURANT" -> image = baseUrl + "restaurant.jpg";
+            case "FACILITY" -> image = baseUrl + "facility.png";
+            case "NATURE" -> image = baseUrl + "park.jpeg";
+            case "CULTURE" -> image = baseUrl + "culture.jpeg";
+            case "EXPERIENCE" -> image = baseUrl + "experience.png";
+            case "EDUCATION" -> image = baseUrl + "culture.jpeg";
+            case "WITH_EVENT" -> image = baseUrl + "with_event.png";
+            case "LIBRARY" -> image = baseUrl + "library.jpeg";
+            case "MARKET" -> image = baseUrl + "market.jpeg";
+            case "PARKING" -> image = baseUrl + "parking.jpeg";
+            case "HISTORY" -> image = baseUrl + "history.jpg";
+            case "STREET" -> image = baseUrl + "street.jpeg";
+            default -> image = baseUrl + "default.png";
+        }
+
+        Place place = Place.of(placeCreateRequestDTO, image);
+        placeRepository.save(place);
+
+        return place.getId();
+    }
+
+    //장소 수정
+    public Long updatePlace(PlaceUpdateRequestDTO placeUpdateRequestDTO) {
+        Place place = placeHelper.getPlaceByName(placeUpdateRequestDTO.getName());
+
+        place.updatePlaceCoordinate(placeUpdateRequestDTO);
+        placeRepository.save(place);
+
+        return place.getId();
+    }
+
+    //장소 삭제
+    @Transactional
+    public void deletePlace(Long id) {
+        Place place = placeHelper.getPlaceById(id);
+        placeRepository.delete(place);
     }
 }

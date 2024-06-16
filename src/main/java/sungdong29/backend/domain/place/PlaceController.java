@@ -5,9 +5,12 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import sungdong29.backend.domain.place.domain.Category;
+import sungdong29.backend.domain.place.dto.request.PlaceCreateRequestDTO;
+import sungdong29.backend.domain.place.dto.request.PlaceUpdateRequestDTO;
 import sungdong29.backend.domain.place.dto.response.DetailedPlaceResponseDTO;
 import sungdong29.backend.domain.place.dto.response.MarkerResponseDTO;
 import sungdong29.backend.domain.place.dto.response.SimplePlaceResponseDTO;
@@ -52,5 +55,37 @@ public class PlaceController {
         log.info("근처 마커 리스트 조회");
         List<MarkerResponseDTO> markerList = placeService.getMarkerList(xCoordinate, yCoordinate, limit);
         return ResponseEntity.ok(markerList);
+    }
+
+    //장소 생성
+    @Operation(summary = "장소 생성")
+    @PostMapping
+    public ResponseEntity<Long> createPlace(
+            @RequestBody PlaceCreateRequestDTO placeCreateRequestDTO
+    ) {
+        log.info("장소 생성");
+        Long placeId = placeService.createPlace(placeCreateRequestDTO);
+        return ResponseEntity.ok(placeId);
+    }
+
+    //장소 수정
+    @Operation(summary = "장소 수정")
+    @PutMapping
+    public ResponseEntity<Long> updatePlace(
+            @RequestBody PlaceUpdateRequestDTO placeUpdateRequestDTO) {
+        log.info("장소 수정");
+        Long placeId = placeService.updatePlace(placeUpdateRequestDTO);
+        return ResponseEntity.ok(placeId);
+    }
+
+    //장소 삭제
+    @Operation(summary = "장소 삭제")
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Long> deletePlace(
+            @PathVariable Long id
+    ) {
+        log.info("장소 삭제");
+        placeService.deletePlace(id);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 }

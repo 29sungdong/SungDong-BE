@@ -18,4 +18,10 @@ public class PlaceHelper {
             throw PlaceNotFound.EXCEPTION;
         });
     }
+
+    public Place getPlaceByName(String name) {
+        return placeRepository.findByName(name).orElseThrow(() -> {
+            throw PlaceNotFound.EXCEPTION;
+        });
+    }
 }
