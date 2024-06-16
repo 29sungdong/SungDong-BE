@@ -12,13 +12,15 @@ public class PlaceCreateRequestDTO {
     private Category category;
     private String xCoordinate;
     private String yCoordinate;
+    private String tel;
 
     @Builder
-    public PlaceCreateRequestDTO(String name, String address, Category category, String xCoordinate, String yCoordinate) {
+    public PlaceCreateRequestDTO(String name, String address, Category category, String xCoordinate, String yCoordinate, String tel) {
         this.name = name;
         this.address = address;
         this.category = category;
         this.xCoordinate = xCoordinate;
         this.yCoordinate = yCoordinate;
+        this.tel = tel;
     }
 }

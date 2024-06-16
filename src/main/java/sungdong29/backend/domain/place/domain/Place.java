@@ -87,8 +87,8 @@ public class Place extends BaseEntity {
                 .address(placeCreateRequestDTO.getAddress())
                 .xCoordinate(placeCreateRequestDTO.getXCoordinate())
                 .yCoordinate(placeCreateRequestDTO.getYCoordinate())
+                .tel(placeCreateRequestDTO.getTel())
                 .image(image)
-                .tel("")
                 .build();
     }
 
